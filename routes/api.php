@@ -63,6 +63,7 @@ Route::group(["middleware"=> ["auth:sanctum","isAdmin"]],function(){
     route::get('users',[DashboardController::class,'users']); 
     route::get('view_user/{user}',[DashboardController::class,'view_user']); 
 
+    
     Route::post("/logout",[AuthController::class,"logout"]);
 });
 
