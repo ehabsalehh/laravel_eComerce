@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string("slug")->unique();
             $table->longText("description");
             $table->string('photo')->nullable();
-            $table->enum('popular',['popular','unpopular'])->default('unpopular');
             $table->enum('status',['active','inactive'])->default('inactive');
-            $table->string("meta_title");
-            $table->string("meta_description");
-            $table->string("meta_keywords");
+            $table->boolean('is_parent')->default(1);
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('SET NULL');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

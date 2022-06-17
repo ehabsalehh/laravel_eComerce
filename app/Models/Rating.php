@@ -11,14 +11,14 @@ class Rating extends Model
     protected $table ='ratings';
     protected $fillable = [
        'product_id',
-       'user_id',
+       'customer_id',
        'stars_rated',
     ];
 
     public function product(){
         return $this->belongsTo(product::class);
     }
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function Customer(){
+        return $this->belongsTo(Customer::class);
     }
 }

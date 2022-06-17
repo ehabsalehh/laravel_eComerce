@@ -4,11 +4,11 @@ namespace App\Http\Traits\Cart;
 
 use App\Models\Cart;
 
-trait DestroyUserCartTrait
+trait DestroyCustomerCartTrait
 {
-use GetUserCartTrait;
-protected function destroyUserCart(){
-    $cartItems = $this->getUserCart();
+use GetCustomerCartTrait;
+protected function destroyCustomerCart(){
+    $cartItems = $this->getCustomerCart();
      Cart::destroy($cartItems);
 }
 }

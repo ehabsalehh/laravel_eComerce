@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');            
-            $table->foreignId('product_id')->constrained('products');            
-            $table->foreignId('user_id')->constrained('users');            ;
-            $table->string('product_quantity');
-            $table->string('price');
+            $table->unsignedBigInteger('order_id')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('SET NULL');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('SET NULL');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('SET NULL');
+            $table->string('quantity');
             $table->timestamps();
         });
     }

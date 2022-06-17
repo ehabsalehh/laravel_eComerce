@@ -23,7 +23,7 @@ class isAdmin
         }
         else{
             throw ValidationException::withMessages([
-                'message' => ['invalid operation'],
+                'message' => ['Access Denied'],
             ]);
         }
     }

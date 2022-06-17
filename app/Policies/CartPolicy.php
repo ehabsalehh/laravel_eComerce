@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Cart;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -19,9 +20,9 @@ class CartPolicy
     {
         //
     }
-    public function delete(User $user,Cart $cart){
+    public function delete(Customer $customer,Cart $cart){
         
-        return $user->id === $cart->user_id;
+        return $customer->id === $cart->customer_id;
 
     }
 }

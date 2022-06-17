@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class storedCategoryRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the Customer is authorized to make this request.
      *
      * @return bool
      */
@@ -25,14 +25,11 @@ class storedCategoryRequest extends FormRequest
     {
         return [
         'name'=> ["string",'required'],
-        'slug'=>["string",'required'],
         'description'=>["string","required"],
         'photo'=>["image","nullable"],
-        'popular'=>["required","in:popular,unpopular"],
         'status'=> ["required","in:active,inactive"],
-        'meta_title'=>["string","required"],
-        'meta_description'=>["string","required"],
-        'meta_keywords'=>["string","required"]
+        'is_parent'=>['sometimes','in:1'],
+        'parent_id'=>['nullable','exists:categories,id','required_unless:is_parent,1'],
         ];
     }
 }

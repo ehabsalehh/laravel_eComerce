@@ -6,7 +6,7 @@ trait CreateOrderItemTrait{
             OrderItem::create([
                 'order_id' => $orderid,
                 'product_id'=>$item->product_id,
-                'user_id'=>$item->user_id,
+                'customer_id'=>$item->customer_id,
                 'product_quantity'=>$item->product_quantity,
                 'price'=>$item->product->selling_price,
             ]);

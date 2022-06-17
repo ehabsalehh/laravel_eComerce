@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained('products');            
-            $table->foreignId('user_id')->constrained('users'); 
+            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('SET NULL');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('SET NULL');
             $table->tinyInteger('stars_rated');
             $table->timestamps();
         });

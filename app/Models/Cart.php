@@ -12,18 +12,17 @@ class Cart extends Model
     protected $table = 'carts';
     protected $fillable =[
         'product_id',
-        'user_id',
+        'customer_id',
         'product_quantity',
-
     ];
     
     public function CartCount(){
-        $cart= Cart::userId(Auth::id())->count();
+        $cart= Cart::CustomerId(Auth::id())->count();
         return response()->json(['countCart'=>$cart]) ;
      }
-     // Get the  user that owns the cart .
-     public function user(){
-        return $this->belongsTo(User::class);
+     // Get the  Customer that owns the cart .
+     public function Customer(){
+        return $this->belongsTo(Customer::class);
     }
     public function product(){
         return $this->belongsTo(Product::class);
@@ -32,7 +31,7 @@ class Cart extends Model
     public function scopeProductId($query,$product_id) {
         return $query->where('product_id',$product_id);
     }
-    public function scopeUserId($query,$user_id) {
-        return $query->where('user_id',$user_id);
+    public function scopeCustomerId($query,$customer_id) {
+        return $query->where('customer_id',$customer_id);
     }
    }

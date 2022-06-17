@@ -11,7 +11,7 @@ class RatingService{
     verifiedPurchaseOrderTrait
     ;
     public function addRating($request){
-        // if user purchased Product
+        // if Customer purchased Product
         if(count($this->verifiedPurchaseOrder($request->product_id))>0){
             $this->CreateRating($request);
             return ResponseMessage::succesfulResponse();        

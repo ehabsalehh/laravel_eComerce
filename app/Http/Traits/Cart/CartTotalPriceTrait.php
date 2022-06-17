@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 
 trait CartTotalPriceTrait{
     protected function totalPrice(){
-        return Cart::userId(Auth::id())->join('products','carts.product_id','products.id')
+        return Cart::CustomerId(Auth::id())->join('products','carts.product_id','products.id')
         ->selectRaw('sum(carts.product_quantity * products.selling_price) as total_price')
         ->first();
      }

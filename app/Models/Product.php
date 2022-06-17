@@ -2,29 +2,32 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory,
+    SoftDeletes
+    ;
     protected $table = 'products';
     protected $fillable = [
         'name',
         'slug',
         'small_description',
         'description',
-        'original_price',
-        'selling_price',
-        'quantity',
+        'price',
+        'photo',
+        'status',        
         'tax',
-        'photo',        
         'category_id',
-        'popular',
-        'status',
-        'meta_title',
-        'meta_description',
-        'meta_keywords'
+        'child_category_id',
+        'brand_id',
+        'inventory_id',
+        'discount_id',
+
+
     ];
     public function orderItems(){
         return $this->hasMany(orderItems::class);
@@ -35,13 +38,17 @@ class Product extends Model
     public function review(){
         return $this->hasMany(Review::class);
     }
-    // Get the  user that owns the product .
-    public function user(){
-        return $this->belongsTo(User::class);
+    // Get the  Customer that owns the product .
+    public function Customer(){
+        return $this->belongsTo(Customer::class);
     }
     // Get the  category that owns the product .
     public function category(){
         return $this->belongsTo(category::class);
+    }
+    // Get the  Brand that owns the product .
+    public function brand(){
+        return $this->belongsTo(Brand::class);
     }
     // local scope
     public function scopeGetActiveProduct($query){

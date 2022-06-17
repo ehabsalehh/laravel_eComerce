@@ -10,9 +10,9 @@ trait verifiedPurchaseOrderTrait
 {
     use GetOrderItemsProductTrait;
     protected  function verifiedPurchaseOrder($product_id){
-        $userOrderitems = $this->GetOrderItemsProduct($product_id);
-       return  DB::table('orders')->where('orders.user_id',Auth::id())
-            ->joinSub($userOrderitems, 'order_items', function ($join) {
+        $CustomerOrderitems = $this->GetOrderItemsProduct($product_id);
+       return  DB::table('orders')->where('orders.customer_id',Auth::id())
+            ->joinSub($CustomerOrderitems, 'order_items', function ($join) {
                 $join->on('orders.id', '=', 'order_items.order_id');
             })->get();
     }

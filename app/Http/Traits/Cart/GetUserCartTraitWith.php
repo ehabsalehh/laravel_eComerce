@@ -5,9 +5,9 @@ namespace App\Http\Traits\Cart;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
 
-trait GetUserCartTraitWith
+trait GetCustomerCartTraitWith
 {
-    protected function getUserCartWith(){
-        return Cart::userId(Auth::id())->with('product','user')->get();
+    protected function getCustomerCartWith(){
+        return Cart::CustomerId(Auth::id())->with('product','Customer')->get();
     }
 }

@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Customer;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\CustomerResource;
 
 class DashboardController extends Controller
 {
-    public function users()
+    public function customers()
     {
-        return  new UserResource(User::all());
+        return  new CustomerResource(Customer::all());
     }
-    public function view_user(User $user)
+    public function view_Customer(Customer $Customer)
     {
-        return  new UserResource($user);
+        return  new CustomerResource($Customer);
     }
     
 }

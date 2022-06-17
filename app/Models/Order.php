@@ -12,27 +12,18 @@ class Order extends Model
     protected $table = 'Orders';
     protected $fillable = [
         'order_number',
-        'first_name',
-        'last_name',
-        'email',
-        'phone',
-        'country',
-        'city',
-        'post_code',
-        'address1',
-        'address2',
         'status',
-        'total_price',
-        'user_id',
-
+        'customer_id',
+        'shipping_id',
+        'employee_id',
     ];
     
     public function orderItems(){
         return $this->hasMany(orderItem::class);
     }
     
-    public function scopeUserId($query,$id) {
-        return $query->where('user_id',$id);
+    public function scopeCustomerId($query,$id) {
+        return $query->where('customer_id',$id);
     }
     public function scopeGetStatusNewOrder($query) {
         return $query->where('status' ,'new');

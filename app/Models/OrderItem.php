@@ -12,9 +12,8 @@ class OrderItem extends Model
     protected $fillable = [
         'order_id',
         'product_id',
-        'user_id',
-        'price',
-        'product_quantity',
+        'customer_id',
+        'quantity',
     ];
     public function order(){
         return $this->belongsTo(Order::class,'order_id');
@@ -28,4 +27,7 @@ class OrderItem extends Model
     public function scopeGetOrrderItems($query,$orderId){
        return $query->where('order_id',$orderId);
     } 
+    public function scopeGetOrderOwner($query,$customer_id){
+        return $query->where('customer_id',$customer_id);
+     } 
 }

@@ -4,19 +4,24 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\services\ResponseMessage;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Http\Requests\ReturnItemRequest;
 use App\Http\Resources\OrderItemResource;
 use App\Http\Requests\UpdatedOrderRequest;
 use App\Http\Traits\Order\CancelOrderStausTrait;
 use App\Http\Traits\Order\UpdateOrderStausTrait;
+use App\Http\Traits\OrderItem\GetOrderItemTrait;
+use App\Http\Traits\Order\DecreaseOrderTotalPriceTrait;
 
 
 class OrderController extends Controller
 {
     use UpdateOrderStausTrait,
-        CancelOrderStausTrait
+        CancelOrderStausTrait,
+        DecreaseOrderTotalPriceTrait
+        
     ;
     /**
      * Display a listing of the resource.
@@ -25,16 +30,17 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return  OrderResource::collection(Order::getStatusNewOrder()->with('orderItems')->paginate(2));
+        
+        return  OrderResource::collection(Order::getStatusNewOrder()->with('orderItems.product')->paginate(2));
     }
     public function getOrderItems($orderId){
-        return OrderItemResource::collection(OrderItem::getOrrderItems($orderId)->get());
+        return OrderItemResource::collection(OrderItem::getOrrderItems($orderId)->with('product')->get());
     }
     
     // return order based on status
     public function order_status($status)
     {
-        return  OrderResource::collection(Order::GetOrderByStatus($status)->with('orderItems')->get());
+        return  OrderResource::collection(Order::GetOrderByStatus($status)->with('orderItems.product')->get());
     }
     /**
      * Display the specified resource.
@@ -44,7 +50,14 @@ class OrderController extends Controller
      */
     public function show( Order $order)
     {
-        return new OrderResource($order->with('orderItems')->first());
+        $created = new Carbon($order->created_at);
+        $now = Carbon::now();
+        $difference = ($created->diff($now)->days < 1)
+            ? 'today'
+            : $created->diffForHumans($now);
+        return $difference;
+
+        return new OrderResource($order->with('orderItems.product')->first());
     }    
 
     /**
@@ -69,4 +82,9 @@ class OrderController extends Controller
     {
         return $this->cancelOrderStaus($order);
     }
+    public function return_item(ReturnItemRequest $request)
+    {
+        return $this->decreaseOrderTotalPrice($request);
+    }
+    
 }

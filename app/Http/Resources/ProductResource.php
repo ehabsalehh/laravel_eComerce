@@ -35,6 +35,8 @@ class ProductResource extends JsonResource
             'meta_keywords' =>$this->meta_keywords,
             'rating' => $this->whenLoaded('rating'),
             'Review' => $this->whenLoaded('review'),
+            // 'Reviews' => $this->rating
+
             // 'rating_number' => $this->whenLoaded('rating')?$this->rating->count():null,
             // 'rating_avg' => $this->whenLoaded('rating')?$this->rating->sum('stars_rated')/$this->rating->count():null,
 

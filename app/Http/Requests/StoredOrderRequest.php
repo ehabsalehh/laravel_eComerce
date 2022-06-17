@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoredOrderRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the Customer is authorized to make this request.
      *
      * @return bool
      */
@@ -33,7 +33,7 @@ class StoredOrderRequest extends FormRequest
             'post_code'=>['nullable','string'],
             'address1'=>['required','string'],
             'address2'=>['nullable','string'],
-            'user_id'=>['exists:users,id'],
+            'customer_id'=>['exists:customers,id'],
         ];
     }
 }

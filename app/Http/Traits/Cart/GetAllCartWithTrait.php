@@ -8,6 +8,6 @@ use Illuminate\Support\Facades\Auth;
 trait GetAllCartWithTrait
 {
     protected function getAllCartWith(){
-        return Cart::with('product','user')->get();
+        return Cart::with('product','Customer')->get();
     }
 }

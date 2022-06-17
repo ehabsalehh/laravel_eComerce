@@ -12,16 +12,16 @@ class WishList extends Model
     protected $table ='wish_lists';
     protected $fillable = [
        'product_id',
-       'user_id',
+       'customer_id',
     ];
     public function product(){
         return $this->belongsTo(product::class);
     }
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function customer(){
+        return $this->belongsTo(Customer::class);
     }
-    public function scopeGetUserWishList($query){
-        return $query->where('user_id',Auth::id());
+    public function scopeGetCustomerWishList($query){
+        return $query->where('customer_id',Auth::id());
     }
     
 }

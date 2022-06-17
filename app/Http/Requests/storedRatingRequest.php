@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class storedRatingRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the Customer is authorized to make this request.
      *
      * @return bool
      */
@@ -25,7 +25,7 @@ class storedRatingRequest extends FormRequest
     {
         return [
             'product_id'=>["required","exists:products,id"],
-            'user_id'=>["exists:users,id"],
+            'customer_id'=>["exists:customers,id"],
             'stars_rated' =>['required','numeric'],
 
 

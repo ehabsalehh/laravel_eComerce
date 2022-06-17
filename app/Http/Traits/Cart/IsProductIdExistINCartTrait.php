@@ -6,8 +6,8 @@ use App\Models\Cart;
 
 trait  IsProductIdExistINCartTrait
 {
-    protected function isProductIdExistINCart($product_id,$user_id){
-        return Cart::ProductId($product_id)->userId($user_id)->exists();
+    protected function isProductIdExistINCart($product_id,$customer_id){
+        return Cart::ProductId($product_id)->customerId($customer_id)->exists();
     }
     
 

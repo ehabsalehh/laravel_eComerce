@@ -18,7 +18,7 @@ class WishListCollection extends ResourceCollection
             return [
                 'id'=>$item->id,
                 'product_id' =>$item->product_id,
-                'user_id' =>$item->user_id,
+                'customer_id' =>$item->customer_id,
                 'product_name' => $item->product->name,
             ];
         });

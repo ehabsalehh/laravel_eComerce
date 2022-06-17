@@ -9,10 +9,10 @@ trait AddWishListTrait
 {
  
     protected function addWishList($request){
-        $user_id = Auth::id();
+        $customer_id = Auth::id();
         $product_id = $request->product_id; 
             WishList::updateOrCreate(
-            ['user_id' => $user_id,'product_id'=>$product_id],
+            ['customer_id' => $customer_id,'product_id'=>$product_id],
         );
     }
 }

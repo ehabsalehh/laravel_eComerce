@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Product;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
-use App\Http\Traits\AttachFilesTrait;
 use App\Http\Resources\ProductResource;
 use App\Http\Requests\storedProductRequest;
 use App\Http\Traits\handleFile\CreateModelWithFileTrait;
@@ -24,7 +23,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return  ProductResource::collection(Product::all());
+        return  ProductResource::collection(Product::with('category','rating','review')->get());
     }
 
     /**

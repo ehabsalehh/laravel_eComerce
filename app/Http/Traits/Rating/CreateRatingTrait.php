@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Auth;
 trait CreateRatingTrait
 {
     protected function CreateRating($request){
-        $user_id = Auth::id();
+        $customer_id = Auth::id();
         $product_id = $request->product_id; 
         $stars_rated = $request->stars_rated;
             Rating::updateOrCreate(
-            ['user_id' => $user_id,'product_id'=>$product_id],
+            ['customer_id' => $customer_id,'product_id'=>$product_id],
             ['stars_rated' => $stars_rated]
         );
     }

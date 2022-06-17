@@ -9,7 +9,7 @@ trait CreateNewCartTrait
 {
     protected function  createNewCart($request){
         $data= $request->all();
-        $data['user_id'] = Auth::id();
+        $data['customer_id'] = Auth::id();
         Cart::create($data);
     }        
 }

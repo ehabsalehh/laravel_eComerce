@@ -10,7 +10,7 @@ trait CreateOrderTrait{
     use CartTotalPriceTrait;
     protected function CreateOrder($request){
         $data= $request->all();
-        $data['user_id'] = Auth::id();
+        $data['customer_id'] = Auth::id();
         $data['order_number']='ORD-'.strtoupper(Str::random(10));
         $data ['total_price'] = $this->totalPrice()->total_price;
         return Order::create($data);
