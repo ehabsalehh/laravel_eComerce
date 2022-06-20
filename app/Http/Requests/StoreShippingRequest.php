@@ -4,10 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatetestRequest extends FormRequest
+class StoreShippingRequest extends FormRequest
 {
     /**
-     * Determine if the Customer is authorized to make this request.
+     * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
@@ -24,8 +24,13 @@ class UpdatetestRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>['required','string'],
-            'photo' => ['required','image']
+            'name' => ['string','required'],
+            'price' =>['required','numeric'],
+            'phone' => ['string','required','digits:11'],
+            'status'=> ["required","in:active,inactive"],
+
+
+            
         ];
     }
 }

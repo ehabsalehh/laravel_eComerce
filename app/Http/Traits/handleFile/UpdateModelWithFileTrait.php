@@ -5,7 +5,7 @@ use App\services\ResponseMessage;
 
 trait UpdateModelWithFileTrait
 {
-    use HasFileUpdateTrait;
+    // use HasFileUpdateTrait;
     protected function updateModelWithlFile($request,$model,$modelAttribute,$fileName,$folder){
         try {
             $data = $request->all();

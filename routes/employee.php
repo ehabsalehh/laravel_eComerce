@@ -5,48 +5,70 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\ShippingController;
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Auth\AuthAdminController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DiscountTController;
 use App\Http\Controllers\Auth\AuthEmployeeController;
+use App\Http\Controllers\Customer\CustomerController;
 
 
-route::get('getAllCustomers',[CustomerController::class,'index']);
 Route::post('/registerEmployee', [AuthEmployeeController::class, 'register']); 
 Route::post("/loginEmployee",[AuthEmployeeController::class,"login"]);
 Route::group(["middleware"=> ["auth:sanctum"]],function(){
+
  // categories
- route::get("/getAllcategory",[CategoryController::class,'index']);
- route::post("/storeCategory",[CategoryController::class,'store']);
+//  Route::apiResource('category',CategoryController::class);
+ route::get("/category",[CategoryController::class,'index']);
+ route::post("/category",[CategoryController::class,'store']);
  route::get("/category/{category}",[CategoryController::class,'show']);
- route::post("/update_category",[CategoryController::class,'update']);
+ route::post("/category/{category}",[CategoryController::class,'update']);
  route::delete("/category/{category}",[CategoryController::class,'destroy']);
-// Customers
-route::get('getAllCustomers',[CustomerController::class,'index']);
+// // Customers
+// route::get('getAllCustomers',[CustomerController::class,'index']);
+// // suppliers
+route::get("/supplier",[SupplierController::class,'index']);
+route::post("/supplier",[SupplierController::class,'store']);
+route::get("/supplier/{supplier}",[SupplierController::class,'show']);
+route::post("/supplier/{supplier}",[SupplierController::class,'update']);
+route::delete("/supplier/{supplier}",[SupplierController::class,'destroy']);
+// // shipping
+route::get("/shipping",[ShippingController::class,'index']);
+route::post("/shipping",[ShippingController::class,'store']);
+route::get("/shipping/{shipping}",[ShippingController::class,'show']);
+route::post("/shipping/{shipping}",[ShippingController::class,'update']);
+route::delete("/shipping/{shipping}",[ShippingController::class,'destroy']);
+
 // products
  route::get("/product",[ProductController::class,'index']);
  route::post("/product",[productController::class,'store']);
  route::get("/product/{product}",[productController::class,'show']);
- route::post("/update_product/{product:slug}",[productController::class,'update']);
+ route::post("/product/{product}",[productController::class,'update']);
  route::delete("/product/{product}",[productController::class,'destroy']);
- // Orders
- route::get('orders',[OrderController::class,'index']);
- route::get('getOrderItems/{id}',[OrderController::class,'getOrderItems']);
- route::get('order_status/{status}',[OrderController::class,'order_status']);
- route::get('orders/{order}',[OrderController::class,'show']);
- route::post('update_order',[OrderController::class,'update']);
- route::post('Delete_order/{order}',[OrderController::class,'destroy']);
- route::post('return_item',[OrderController::class,'return_item']);
+//  // Orders
+//  route::get('orders',[OrderController::class,'index']);
+//  route::get('getOrderItems/{id}',[OrderController::class,'getOrderItems']);
+//  route::get('order_status/{status}',[OrderController::class,'order_status']);
+//  route::get('orders/{order}',[OrderController::class,'show']);
+//  route::post('update_order',[OrderController::class,'update']);
+//  route::post('Delete_order/{order}',[OrderController::class,'destroy']);
+//  route::post('return_item',[OrderController::class,'return_item']);
 
  
- // Dashboard
- route::get('Customers',[DashboardController::class,'Customers']); 
- route::get('view_Customer/{Customer}',[DashboardController::class,'view_Customer']); 
+//  // Dashboard
+//  route::get('Customers',[DashboardController::class,'Customers']); 
+//  route::get('view_Customer/{Customer}',[DashboardController::class,'view_Customer']); 
 
  // Brand 
- route::post("addBrand",[BrandController::class,'store']);
- route::post("updateBrand",[BrandController::class,'update']);
+ route::post("brand",[BrandController::class,'store']);
+ route::post("brand/{brand}",[BrandController::class,'update']);
+//  Discount
+route::post('discount',[DiscountTController::class,'store']);
+route::post('discount/{discount}',[DiscountTController::class,'update']);
 
- Route::post("/logoutEmpolyee",[AuthEmployeeController::class,"logout"]);    
+
+//  Route::post("/logoutEmpolyee",[AuthEmployeeController::class,"logout"]);  
+
 
 });

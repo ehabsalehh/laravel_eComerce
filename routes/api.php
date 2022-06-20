@@ -85,38 +85,38 @@ Route::group(["middleware"=> ["auth:sanctum"]],function(){
 //     Route::post("/logout",[AuthController::class,"logout"]);
 // });
 
-// Route::group(["middleware"=> ["auth:sanctum"]],function(){
-//     // front end
-//     // cartController
-//     route::get('/index',[CartController::class,'index']);
-//     route::get('/viewCart',[CartController::class,'viewCart']);
-//     route::get('/CartCount',[CartController::class,'CartCount']);
-//     route::post('/addToCart',[CartController::class,'addToCart']);
-//     route::post('/updateCart',[CartController::class,'updateCart']);
-//     route::get('/totalPrice',[CartController::class,'totalPrice']);
+Route::group(["middleware"=> ["auth:sanctum"]],function(){
+    // front end
+    // cartController
+    route::get('/index',[CartController::class,'index']);
+    route::get('/viewCart',[CartController::class,'viewCart']);
+    route::get('/CartCount',[CartController::class,'CartCount']);
+    route::post('/addToCart',[CartController::class,'addToCart']);
+    route::post('/remove',[CartController::class,'remove']);
+    route::get('/totalPrice',[CartController::class,'totalPrice']);
 
 
-//     // checkOutController
-//     route::post('/placeOrder',[CheckoutController::class,'placeOrder']);
+    // checkOutController
+    route::post('/placeOrder',[CheckoutController::class,'placeOrder']);
 
-//     // CustomerController 
-//     route::get('/viewMyOrder',[CustomerController::class,'index']);
+    // CustomerController 
+    route::get('/viewMyOrder',[CustomerController::class,'index']);
     
 
-//     route::post('/deleteCart/{cart}',[CartController::class,'deleteCart']);
-//     // WhishList
-//     Route::get('WishList',[WishListController::class,'index']);
-//     Route::get('wishList_show/{wishList}',[WishListController::class,'show']);
-//     Route::get('wishList_count',[WishListController::class,'wish_list_count']);
-//     Route::post('addWishList',[WishListController::class,'Add_to_wish_list']);
-//     Route::post('destroy_WishList/{wishList}',[WishListController::class,'deleteWishList']);
+    route::post('/deleteCart/{cart}',[CartController::class,'deleteCart']);
+    // WhishList
+    Route::get('WishList',[WishListController::class,'index']);
+    Route::get('wishList_show/{wishList}',[WishListController::class,'show']);
+    Route::get('wishList_count',[WishListController::class,'wish_list_count']);
+    Route::post('addWishList',[WishListController::class,'Add_to_wish_list']);
+    Route::post('destroy_WishList/{wishList}',[WishListController::class,'deleteWishList']);
 
-//     // Rating
-//     Route::post('addRating',[RatingController::class,'addRating']);
-//     Route::get('testRating/{id}',[RatingController::class,'test']);
+    // Rating
+    Route::post('addRating',[RatingController::class,'addRating']);
+    Route::get('testRating/{id}',[RatingController::class,'test']);
     
-//     Route::post('storeReviewProduct',[ReviewController::class,'storeReviewProduct']);
+    Route::post('storeReviewProduct',[ReviewController::class,'storeReviewProduct']);
 
-//     Route::post("/logout",[AuthController::class,"logout"]);    
+    Route::post("/logout",[AuthController::class,"logout"]);    
 
-// });
+});

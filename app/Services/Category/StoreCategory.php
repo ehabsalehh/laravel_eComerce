@@ -2,23 +2,23 @@
 
 namespace App\Services\Category;
 
+use App\Http\Traits\handleFile\UploadCategoryFileTrait;
 use App\Models\Category;
+use App\services\ResponseMessage;
 use Illuminate\Support\Str;
 
 class StoreCategory
 {
-    private $uploadCategoryFile;
+    use UploadCategoryFileTrait;
     private $data;
-    private $slug;
-    public function store($request,UploadCategoryFile $uploadCategoryFile){
+    public function store($request){
         try {
-            $this->uploadCategoryFile = $uploadCategoryFile;
-            $this->data= $request->all();
-            $this->slug= Str::slug($request->name).'-'.date('ymdis');
-            $this->data['slug']=$this->slug;
-            $this->data['photo'] = $this->uploadCategoryFile->getFileName();
+            $this->data= $request->validated();
+            $this->data['slug']=Str::slug($request->name).'-'.date('ymdis');
+            $this->data['photo'] = $this->uploadCategoryFile($request);
             $this->data['is_parent']=$request->input('is_parent',0);
-            Category::create($this->data);       
+            Category::create($this->data);
+            return ResponseMessage::succesfulResponse();
         } catch (\Throwable $th) {
             throw $th;
         }

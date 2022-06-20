@@ -2,20 +2,20 @@
 
 namespace App\Services\Auth;
 
+use App\Http\Traits\handleFile\UploadEmployeeFileTrait;
 use App\Models\Employee;
 use App\services\ResponseMessage;
 use App\Services\HandleFiles\UploadEmployeeFile;
 
 class RegisterEmployee
 {
-    private $uploadEmployeeFile;
+    use UploadEmployeeFileTrait;
     private $data;
-    public function register($request,UploadEmployeeFile $uploadEmployeeFile)
+    public function register($request)
     {
         try {
-            $this->data = $request->all();
-            $this->uploadEmployeeFile = $uploadEmployeeFile;
-            $this->data['photo'] =$this->uploadEmployeeFile->getFileName();
+            $this->data = $request->validated();
+            $this->data['photo'] =$this->uploadEmployeeFile($request);
             $this->data['password'] = bcrypt($request['password']);
             Employee::create($this->data);
             return  ResponseMessage::succesfulResponse();    

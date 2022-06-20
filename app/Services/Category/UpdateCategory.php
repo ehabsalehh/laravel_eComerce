@@ -2,24 +2,19 @@
 
 namespace App\Services\Category;
 
+use App\Http\Traits\handleFile\UpdateCategoryPhotoTrait;
 use App\Models\Category;
-use App\Services\Category\UploadCategoryFile;
 use App\services\ResponseMessage;
 
 class UpdateCategory
 {
-    private $updateCategoryPhoto;
-     private $model;
+    use UpdateCategoryPhotoTrait;
      private $data;
-     private $fileName;
-    public function update($request,UpdateCategoryPhoto $updateCategoryPhoto){
+    public function update($request,Category $category){
         try {
-            $this->model = Category::findOrFail($request->id);
-            $this->updateCategoryPhoto =$updateCategoryPhoto;
-            $this->fileName = $this->updateCategoryPhoto->updateCategoryPhoto($request,$this->model->photo);
-            $this->data= $request->all();
-            $this->data['photo'] = $this->fileName;
-            $this->model->update($this->data);    
+            $this->data= $request->validated();
+            $this->data['photo'] = $this->updateCategoryPhoto($request,$category->photo);
+            $category->update($this->data);    
             return ResponseMessage::succesfulResponse();   
         } catch (\Throwable $th) {
             throw $th;

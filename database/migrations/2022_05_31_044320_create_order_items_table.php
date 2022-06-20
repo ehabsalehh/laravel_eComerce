@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('SET NULL');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('SET NULL');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('SET NULL');
-            $table->string('quantity');
             $table->timestamps();
         });
     }

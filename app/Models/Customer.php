@@ -31,6 +31,7 @@ class Customer extends Authenticatable
         'shipper_city',
         'billing_address',
         'billing_city',
+
     ];
 
     /**

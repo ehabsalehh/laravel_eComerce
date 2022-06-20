@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->string('company_name');
-            $table->decimal('price');
-            $table->string('Phone');
+            $table->string('name');
+            $table->float('price');
+            $table->string('phone');
             $table->enum('status',['active','inactive'])->default('active');
             $table->timestamps();
         });

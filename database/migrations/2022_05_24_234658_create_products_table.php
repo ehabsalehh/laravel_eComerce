@@ -20,16 +20,16 @@ return new class extends Migration
             $table->mediumText("small_description")->nullable();
             $table->longText("description")->nullable();
             $table->float("price");
+            $table->string('size')->default('M')->nullable();
+            $table->string('color')->nullable();
             $table->string('photo');
             $table->integer('tax');
             $table->enum('status',['active','inactive'])->default('inactive');
-            $table->unsignedBigInteger('inventory_id')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('child_category_id')->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('brand_id')->nullable();
             $table->unsignedBigInteger('discount_id')->nullable();
-            $table->foreign('inventory_id')->references('id')->on('inventories')->onDelete('SET NULL');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('SET NULL');
             $table->foreign('child_category_id')->references('id')->on('categories')->onDelete('SET NULL');
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('SET NULL');

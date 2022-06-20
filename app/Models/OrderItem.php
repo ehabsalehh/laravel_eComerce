@@ -13,7 +13,6 @@ class OrderItem extends Model
         'order_id',
         'product_id',
         'customer_id',
-        'quantity',
     ];
     public function order(){
         return $this->belongsTo(Order::class,'order_id');

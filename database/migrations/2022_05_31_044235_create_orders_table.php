@@ -17,6 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('order_number')->unique();
             $table->enum('status',['new','process','delivered','cancel'])->default('new');
+            $table->decimal('sub_total')->nullable();
+            $table->decimal('total_discount')->nullable();
+            $table->decimal('total');
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('shipping_id')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();

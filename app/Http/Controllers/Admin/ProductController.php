@@ -9,9 +9,13 @@ use App\Http\Resources\ProductResource;
 use App\Http\Requests\storedProductRequest;
 use App\Http\Traits\handleFile\CreateModelWithFileTrait;
 use App\Http\Traits\handleFile\UpdateModelWithFileTrait;
+use App\Services\product\StoreProduct;
+use App\Services\Product\UpdateProduct;
 
 class ProductController extends Controller
 {
+    private $store;
+    private $update;
      use CreateModelWithFileTrait,
      UpdateModelWithFileTrait
  
@@ -32,9 +36,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(storedProductRequest $request,Product $product)
+    public function store(storedProductRequest $request,StoreProduct $store)
     {
-        return $this->createModelWithFile($request,$product,'photo','products');
+        $this->store = $store;
+        return $this->store->store($request);
     }
 
     /**
@@ -55,9 +60,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(storedProductRequest $request,Product $product)
+    public function update(storedProductRequest $request,UpdateProduct $updateProduct,Product $product)
     {
-        return $this->updateModelWithlFile($request,$product,$product->photo,'photo','products');
+        $this->update = $updateProduct;
+        return $this->update->update($request,$product);
+
     }
     /**
      * Remove the specified resource from storage.

@@ -13,12 +13,13 @@ use App\Http\Requests\storedCategoryRequest;
 use App\Services\Category\UploadCategoryFile;
 use App\Http\Traits\handleFile\CreateModelWithOptionalFileTrait;
 use App\Http\Traits\handleFile\UpdateModelWithOptionalFileTrait;
+use App\Services\Category\CategoryData;
 use App\Services\Category\UpdateCategoryFile;
 use App\Services\Category\UpdateCategoryPhoto;
 
 class CategoryController extends Controller
 {
-    private $addCategory;
+    private $store;
     private $updateCategory;
     use UpdateModelWithOptionalFileTrait,
         CreateModelWithOptionalFileTrait
@@ -39,10 +40,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(storedCategoryRequest $request, StoreCategory $addCategory){
-        $this->addCategory = $addCategory;
-        $this->addCategory->store($request,new UploadCategoryFile($request));
-        // return ResponseMessage::succesfulResponse();
+    public function store(storedCategoryRequest $request, StoreCategory $StoreCategory){
+        $this->store = $StoreCategory;
+        return $this->store->store($request);
     }
 
     /**
@@ -67,10 +67,10 @@ class CategoryController extends Controller
     // {
     //     return $this->updateModelWithOptionalFile($request,$category,$category->photo,'photo','categories');
     // }
-    public function update(storedCategoryRequest $request,UpdateCategory $updateCategory)
+    public function update(storedCategoryRequest $request,UpdateCategory $updateCategory,Category $category)
     {
         $this->updateCategory = $updateCategory;
-        return $this->updateCategory->update($request,new UpdateCategoryPhoto);
+        return $this->updateCategory->update($request,$category);
     }
 
     /**

@@ -9,9 +9,9 @@ class Shipping extends Model
 {
     use HasFactory;
     protected $fillable =[
-        'company_name',
+        'name',
         'price',
-        'Phone',
+        'phone',
         'status',
 
     ];

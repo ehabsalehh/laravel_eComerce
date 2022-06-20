@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->integer('quantity_recieved')->nullable();
-            $table->integer('quantity_shipped')->nullable();
+            $table->integer('quantity')->default(1);
+            $table->foreignId('product_id')->constrained('products');
+            $table->unsignedBigInteger('location_id');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

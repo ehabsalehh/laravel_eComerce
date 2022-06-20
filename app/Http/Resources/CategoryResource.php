@@ -21,11 +21,8 @@ class CategoryResource extends JsonResource
             'slug' =>$this->slug,
             'description' =>$this->description,
             'photo' =>$this->photo,
-            'popular' =>$this->popular,
             'status' =>$this->status,
-            'meta_title' =>$this->meta_title,
-            'meta_description' =>$this->meta_description,
-            'meta_keywords' =>$this->meta_keywords,
+        
             // 'products' => ProductResource::collection($this->whenLoaded('products'))
             'products' => ProductResource::collection($this->whenLoaded('products'))
 

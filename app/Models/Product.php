@@ -18,17 +18,23 @@ class Product extends Model
         'small_description',
         'description',
         'price',
+        'size',
+        'color',
         'photo',
         'status',        
         'tax',
         'category_id',
         'child_category_id',
+        'supplier_id',
         'brand_id',
-        'inventory_id',
         'discount_id',
 
-
     ];
+    public function scopeGetProductDiscount($query){
+        return $query->join('discounts','products.discount_id','discounts.id')
+        ->select('products.price','discounts.percent')
+        ->first();
+    }
     public function orderItems(){
         return $this->hasMany(orderItems::class);
     }
@@ -49,6 +55,9 @@ class Product extends Model
     // Get the  Brand that owns the product .
     public function brand(){
         return $this->belongsTo(Brand::class);
+    }
+    public function discount(){
+        return $this->belongsTo(Discount::class);
     }
     // local scope
     public function scopeGetActiveProduct($query){

@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
-            $table->integer('product_quantity');
+            $table->integer('quantity');
             $table->unsignedBigInteger('customer_id')->nullable();
-            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('SET NULL');
             $table->unsignedBigInteger('product_id')->nullable();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('SET NULL');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('SET NULL');
             $table->timestamps();
         });

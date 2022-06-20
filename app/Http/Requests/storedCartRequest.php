@@ -25,7 +25,7 @@ class storedCartRequest extends FormRequest
     {
         return [
             'product_id' =>['required','numeric'],
-            'product_quantity' =>['required','numeric',],
+            'quantity' =>['required','numeric',],
 
         ];
     }

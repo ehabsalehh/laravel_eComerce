@@ -24,16 +24,6 @@ class RegisterCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-        //     phone',
-        // 'country',
-        // 'city',
-        // 'postal_code',
-        // 'address1',
-        // 'address2',
-        // 'shipper_address',
-        // 'shipper_city',
-        // 'billing_address',
-        // 'billing_city',
             'email' =>['string','required','unique:customers,email'],
             'password' => ['string','required','min:6','confirmed'],
             'first_name' => ['string','required'],

@@ -13,7 +13,7 @@ class Cart extends Model
     protected $fillable =[
         'product_id',
         'customer_id',
-        'product_quantity',
+        'quantity',
     ];
     
     public function CartCount(){

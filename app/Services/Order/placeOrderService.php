@@ -3,8 +3,8 @@ namespace App\services\Order;
 
 
 use App\services\ResponseMessage;
-use App\Http\Traits\Cart\GetCustomerCartTrait;
 use App\Http\Traits\Order\CreateOrderTrait;
+use App\Http\Traits\Cart\GetCustomerCartTrait;
 use App\Http\Traits\Cart\DestroyCustomerCartTrait;
 use App\Http\Traits\OrderItem\CreateOrderItemTrait;
 use App\Http\Traits\Product\DecreseProductQuantityTrait;
@@ -15,7 +15,6 @@ class placeOrderService{
         DecreseProductQuantityTrait,
         DestroyCustomerCartTrait,
         GetCustomerCartTrait
-
         ;
     public function placeOrder($request){
        try {
@@ -23,7 +22,9 @@ class placeOrderService{
             $cartItems = $this->getCustomerCart();
             foreach($cartItems as $item){
                 $this->CreateOrderItem($order->id,$item);
-                $this->decreseProductQuantity($item); 
+                // decrese inventory
+                // if product status =delivered 
+                $this->decreseInventoryQuantity($item); 
             }
             $this->destroyCustomerCart();
             return ResponseMessage::succesfulResponse();

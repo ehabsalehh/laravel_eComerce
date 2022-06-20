@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Inventory extends Model
 {
-    use HasFactory,
-    SoftDeletes
+    use HasFactory
     ;
     protected $fillable = [
-        'quantity_recieved',
-        'quantity_shipped',
+        'quantity',
+        'product_id',
+        'location_id',
     ];
+    public function scopeGetInventoryProdut($query,$product)
+    {
+        return $query->where('product_id',$product);
+    }
 }

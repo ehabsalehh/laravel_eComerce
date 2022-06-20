@@ -15,7 +15,7 @@ class AuthEmployeeController extends Controller
     private $loginEmployee;
     public function register(ReqisterEmployeeRequest $request,RegisterEmployee $registerEmployee){
         $this->registerEmployee = $registerEmployee;
-        return $this->registerEmployee->register($request,new UploadEmployeeFile($request));
+        return $this->registerEmployee->register($request);
     }
     public function login(LoginEmployeeRequest $request,LoginEmployee $loginEmployee){
         $this->loginEmployee = $loginEmployee;

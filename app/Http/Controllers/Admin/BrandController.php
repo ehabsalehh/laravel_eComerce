@@ -9,9 +9,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BrandResource;
 use App\Services\Brand\BrandStructure;
 use App\Http\Requests\StoredBrandRequest;
+use App\Services\Brand\BrandData;
+use App\services\ResponseMessage;
 
 class BrandController extends Controller
 {
+    private $data;
     /**
      * Display a listing of the resource.
      *
@@ -30,11 +33,11 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoredBrandRequest $request)
+    public function store(StoredBrandRequest $request,BrandData $BrandData)
     {
-
-        $addToBrand = new StoreBrand(new BrandStructure);
-        return $addToBrand->store($request);
+        $this->data = $BrandData;
+        Brand::create($this->data->getData($request));
+        return ResponseMessage::succesfulResponse();
     }
 
     /**
@@ -57,11 +60,11 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoredBrandRequest $request)
+    public function update(StoredBrandRequest $request,BrandData $brandData,Brand $brand)
     {
-
-        $updateBrand = new UpdateBrand(new BrandStructure);
-        return $updateBrand->update($request);   
+        $this->data =$brandData;
+        $brand->update($this->data->getData($request));
+        return ResponseMessage::succesfulResponse(); 
     }
 
     /**

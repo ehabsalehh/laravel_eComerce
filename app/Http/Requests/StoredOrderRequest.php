@@ -24,16 +24,11 @@ class StoredOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name'=>['required','string'],
-            'last_name'=>['required','string'],
-            'email'=>['required','email'],
-            'country'=>['required','string'],
-            'phone'=>['required','numeric'],
-            'city'=>['required','string'],
-            'post_code'=>['nullable','string'],
-            'address1'=>['required','string'],
-            'address2'=>['nullable','string'],
+            'status' =>["required","in:new,process,delivered,cancel"],
+            'shipping_id'=>['exists:shippings,id'],
+            'employee_id'=>['exists:employees,id'],
             'customer_id'=>['exists:customers,id'],
+
         ];
     }
 }

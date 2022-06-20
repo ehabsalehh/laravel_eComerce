@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('contact_name');
-            $table->string('Address');
+            $table->string('address');
             $table->string('city');
             $table->string('country');
             $table->string('phone');

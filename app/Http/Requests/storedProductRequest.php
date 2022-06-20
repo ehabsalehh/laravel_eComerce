@@ -25,20 +25,22 @@ class storedProductRequest extends FormRequest
     {
         return [
             'name'=> ["string",'required'],
-            'slug'=>["string",'required'],
             'small_description'=>["string","nullable"],
             'description'=>["string","nullable"],
-            'original_price'=>["numeric","required"],
-            'selling_price'=>["numeric","required"],
+            'price'=>["numeric","required"],
             'photo'=>["image","required"],
-            'quantity'=>["numeric","required"],
+            'color'=>["string"],
+            'size'=>["string"],
             'tax'=>["numeric","required"],
-            'popular'=>["required","in:popular,unpopular"],
+            'quantity'=>["numeric","required"],
             'status'=> ["required","in:active,inactive"],
-            'meta_title'=>["string","nullable"],
-            'meta_description'=>["string","nullable"],
-            'meta_keywords'=>["string","nullable"],
-            'category_id'=>["required","exists:categories,id"]
+            'category_id'=>["required","exists:categories,id"],
+            'child_category_id'=>["nullable","exists:categories,id"],
+            'supplier_id'=>["nullable","exists:suppliers,id"],
+            'brand_id'=>["nullable","exists:brands,id"],
+            'discount_id'=>['nullable',"exists:discounts,id"],
+            'location_id'=>['required',"exists:locations,id"],
+
 
         ];
     }
