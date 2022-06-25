@@ -7,8 +7,11 @@ use App\Http\Requests\StoredOrderRequest;
 
 class CheckoutController extends Controller
 {
-public function placeOrder(StoredOrderRequest $request){
-    $palceOrder = new placeOrderService();
-    return $palceOrder->placeOrder($request);
-}        
+    private $placeOrder;
+
+public function placeOrder(StoredOrderRequest $request,placeOrderService $placeOrder){
+    $this->placeOrder = $placeOrder;
+    return $this->placeOrder->placeOrder($request);
+}
+          
 }

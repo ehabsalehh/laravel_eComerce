@@ -2,7 +2,9 @@
 namespace App\services\Order;
 
 
+use App\Models\Order;
 use App\services\ResponseMessage;
+use Illuminate\Support\Facades\DB;
 use App\Http\Traits\Order\CreateOrderTrait;
 use App\Http\Traits\Cart\GetCustomerCartTrait;
 use App\Http\Traits\Cart\DestroyCustomerCartTrait;
@@ -17,20 +19,22 @@ class placeOrderService{
         GetCustomerCartTrait
         ;
     public function placeOrder($request){
-       try {
+        try {
+            DB::beginTransaction();
             $order = $this->CreateOrder($request);
             $cartItems = $this->getCustomerCart();
             foreach($cartItems as $item){
                 $this->CreateOrderItem($order->id,$item);
-                // decrese inventory
                 // if product status =delivered 
                 $this->decreseInventoryQuantity($item); 
             }
             $this->destroyCustomerCart();
+            DB::commit();
             return ResponseMessage::succesfulResponse();
-        } catch (\Throwable $th) { 
-            return $th->getMessage();
-        }       
+        } catch (\Exception $e) {
+            DB::rollback();
+            return $e->getMessage();
+        }  
     }
     
 }

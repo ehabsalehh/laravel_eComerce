@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterCustomerRequest extends FormRequest
+class UpdateCustomerProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +27,10 @@ class RegisterCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' =>['string','required','unique:customers,email'],
-            'password' => ['required','confirmed',Password::min(8)->mixedCase()],
+            'email' => [
+                'required',
+                Rule::unique('customers')->ignore(auth()->user()->id),
+            ],
             'first_name' => ['string','required'],
             'last_name' => ['string','required'],
             'phone' => ['string','required','digits:11'],

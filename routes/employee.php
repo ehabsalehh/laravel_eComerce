@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiscountTController;
 use App\Http\Controllers\Auth\AuthEmployeeController;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Admin\ChangePasswordController;
 
 
 Route::post('/registerEmployee', [AuthEmployeeController::class, 'register']); 
@@ -46,14 +48,14 @@ route::delete("/shipping/{shipping}",[ShippingController::class,'destroy']);
  route::get("/product/{product}",[productController::class,'show']);
  route::post("/product/{product}",[productController::class,'update']);
  route::delete("/product/{product}",[productController::class,'destroy']);
-//  // Orders
-//  route::get('orders',[OrderController::class,'index']);
-//  route::get('getOrderItems/{id}',[OrderController::class,'getOrderItems']);
-//  route::get('order_status/{status}',[OrderController::class,'order_status']);
-//  route::get('orders/{order}',[OrderController::class,'show']);
-//  route::post('update_order',[OrderController::class,'update']);
-//  route::post('Delete_order/{order}',[OrderController::class,'destroy']);
-//  route::post('return_item',[OrderController::class,'return_item']);
+  // Orders
+ route::get('orders',[OrderController::class,'index']);
+ route::get('getOrderItems/{id}',[OrderController::class,'getOrderItems']);
+ route::get('order_status/{status}',[OrderController::class,'order_status']);
+ route::get('orders/{order}',[OrderController::class,'show']);
+ route::post('update_order',[OrderController::class,'update']);
+ route::post('Delete_order/{order}',[OrderController::class,'destroy']);
+ route::post('return_item',[OrderController::class,'return_item']);
 
  
 //  // Dashboard
@@ -63,9 +65,24 @@ route::delete("/shipping/{shipping}",[ShippingController::class,'destroy']);
  // Brand 
  route::post("brand",[BrandController::class,'store']);
  route::post("brand/{brand}",[BrandController::class,'update']);
+ route::delete("brand/{brand}",[BrandController::class,'destroy']);
+
+ //Location
+ route::get("/location",[LocationController::class,'index']);
+ route::post("/location",[LocationController::class,'store']);
+ route::get("/location/{location}",[LocationController::class,'show']);
+ route::post("/location/{location}",[LocationController::class,'update']);
+ route::delete("/location/{location}",[LocationController::class,'destroy']);
+
+
 //  Discount
 route::post('discount',[DiscountTController::class,'store']);
 route::post('discount/{discount}',[DiscountTController::class,'update']);
+
+//cahngePassword
+Route::group(['prefix'=>'employee'],function(){
+    Route::Post('CahngePassword',[ChangePasswordController::class,'ChangeEmployeePassword']);     
+});
 
 
 //  Route::post("/logoutEmpolyee",[AuthEmployeeController::class,"logout"]);  

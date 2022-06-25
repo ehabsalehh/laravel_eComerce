@@ -3,12 +3,12 @@
 namespace App\Http\Traits\Cart;
 
 use App\Models\Cart;
+use Illuminate\Support\Facades\Auth;
 
 trait DestroyCustomerCartTrait
 {
-use GetCustomerCartTrait;
 protected function destroyCustomerCart(){
-    $cartItems = $this->getCustomerCart();
-     Cart::destroy($cartItems);
+    $cartItems= Cart::customerId(Auth::id())->pluck('id');
+   Cart::whereIn('id',$cartItems)->delete();
 }
 }

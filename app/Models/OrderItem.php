@@ -13,12 +13,16 @@ class OrderItem extends Model
         'order_id',
         'product_id',
         'customer_id',
+        'quantity',
     ];
     public function order(){
-        return $this->belongsTo(Order::class,'order_id');
+        return $this->belongsTo(Order::class);
     }
     public function product(){
-        return $this->belongsTo(Product::class,'product_id');
+        return $this->belongsTo(Product::class);
+    }
+    public function customer(){
+        return $this->hasOne(Customer::class);
     }
     public function scopeHasProduct($query,$product_id){
         return $query->where('product_id',$product_id);

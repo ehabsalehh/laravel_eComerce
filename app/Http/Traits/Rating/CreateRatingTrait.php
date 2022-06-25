@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 trait CreateRatingTrait
 {
-    protected function CreateRating($request){
+    protected function CreateOrUpdateRating($request){
         $customer_id = Auth::id();
         $product_id = $request->product_id; 
         $stars_rated = $request->stars_rated;

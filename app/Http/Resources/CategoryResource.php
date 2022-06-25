@@ -22,12 +22,11 @@ class CategoryResource extends JsonResource
             'description' =>$this->description,
             'photo' =>$this->photo,
             'status' =>$this->status,
+            'products' =>$this->whenLoaded('products'),
+            'subproducts' =>$this->whenLoaded('sub_products'),
+
         
             // 'products' => ProductResource::collection($this->whenLoaded('products'))
-            'products' => ProductResource::collection($this->whenLoaded('products'))
-
-            // 'products' => $this->products?$this->products->name:'null',
-
         ];
     }
 }

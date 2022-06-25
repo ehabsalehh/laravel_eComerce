@@ -16,11 +16,9 @@ class OrderItemResource extends JsonResource
     {
         
         return [
-            'product' => $this->product->name,
-            // 'product' => PostResource::collection($this->whenLoaded('posts')),
             'id'=>$this->id,
-            'product_id' =>$this->product_id,
-            'customer_id' =>$this->customer_id,
+            'product' => $this->product->name,
+            'customer_id' =>$this->customer->first_name.$this->customer->last_name,
             'product_quantity' =>$this->product_quantity,
             'order_id' =>$this->order_id,
             'price' =>$this->price,

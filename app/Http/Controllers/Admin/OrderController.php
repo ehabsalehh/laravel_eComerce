@@ -4,25 +4,32 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Http\Request;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Carbon;
+use App\Services\Order\OrderTrack;
+use App\Services\Order\ReturnItem;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Services\Order\OrderCalculator;
 use App\Http\Requests\ReturnItemRequest;
 use App\Http\Resources\OrderItemResource;
+use App\Services\Order\ReturnItemService;
 use App\Http\Requests\UpdatedOrderRequest;
+use App\Http\Traits\Order\ReturnItemTrait;
+use App\Http\Interface\OrderTrackerInterface;
 use App\Http\Traits\Order\CancelOrderStausTrait;
 use App\Http\Traits\Order\UpdateOrderStausTrait;
 use App\Http\Traits\OrderItem\GetOrderItemTrait;
-use App\Http\Traits\Order\DecreaseOrderTotalPriceTrait;
-
 
 class OrderController extends Controller
 {
     use UpdateOrderStausTrait,
         CancelOrderStausTrait,
-        DecreaseOrderTotalPriceTrait
-        
+        ReturnItemTrait
     ;
+    
+        private $returnItem;
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +47,7 @@ class OrderController extends Controller
     // return order based on status
     public function order_status($status)
     {
-        return  OrderResource::collection(Order::GetOrderByStatus($status)->with('orderItems.product')->get());
+        return  OrderResource::collection(Order::getOrderByStatus($status)->with('orderItems.product')->get());
     }
     /**
      * Display the specified resource.
@@ -82,9 +89,14 @@ class OrderController extends Controller
     {
         return $this->cancelOrderStaus($order);
     }
-    public function return_item(ReturnItemRequest $request)
+    public function return_item(ReturnItemRequest $request,ReturnItemService $returnItem)
     {
-        return $this->decreaseOrderTotalPrice($request);
+        $this->returnItem = $returnItem;
+       return  $this->returnItem->returnItem($request);  
+        // return $this->getProductOrderItem($request);
+        // return $this->decreaseOrderTotalPrice($request);
     }
+    
+
     
 }

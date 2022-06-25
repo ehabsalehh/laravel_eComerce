@@ -16,25 +16,23 @@ class WishListController extends Controller
 {
     use AddWishListTrait;
     public function index(){
-        $wishList = WishList::getUserWishList()->get();
+        $wishList = WishList::getCustomerWishList()->with('product')->get();
         return  WishListResource::collection($wishList);
     }
     
-    public function Add_to_wish_list(StoredWishListRequest $request){
-        $this->addWishList($request);
-        return ResponseMessage::succesfulResponse();
+    public function addToWishList(StoredWishListRequest $request){
+       return $this->addWishList($request);
     }
     public function show(WishList $wishList){
-        
         return new WishListResource($wishList);
     }
-    public function wish_list_count(){
-        $wishlist =WishList::getCutomerWishList()->count();
-        return response()->json(['WishListCount'=>$wishlist]) ;
+    public function wishListCount(){
+        return  WishList::getCustomerWishList()->count();
     }
     
     public function deleteWishList(WishList $wishList){
         $wishList->delete();
+        return ResponseMessage::succesfulResponse();
     }
 
 }

@@ -30,13 +30,20 @@ class Product extends Model
         'discount_id',
 
     ];
+    public function scopeProductWith($query){
+        return $query->with(['discount','category','sub_category','rating','review']);
+
+    }
     public function scopeGetProductDiscount($query){
         return $query->join('discounts','products.discount_id','discounts.id')
         ->select('products.price','discounts.percent')
         ->first();
     }
     public function orderItems(){
-        return $this->hasMany(orderItems::class);
+        return $this->hasMany(OrderItem::class);
+    }
+    public function inventory(){
+        return $this->hasMany(Inventory::class);
     }
     public function rating(){
         return $this->hasMany(Rating::class);
@@ -52,6 +59,9 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(category::class);
     }
+    public function sub_category(){
+        return $this->hasOne(category::class,'id','child_category_id');
+    }
     // Get the  Brand that owns the product .
     public function brand(){
         return $this->belongsTo(Brand::class);
@@ -59,6 +69,7 @@ class Product extends Model
     public function discount(){
         return $this->belongsTo(Discount::class);
     }
+
     // local scope
     public function scopeGetActiveProduct($query){
         return $query->where('status','active');
@@ -74,5 +85,11 @@ class Product extends Model
     }
     public function scopeGetProductByName($query,$name){
         return $query->where('name','like',"%$name%");
+    }
+    public static function activeProduct(){
+        return Category::where('status','active')->paginate(20);
+    }
+    public  function getProductBySlug($slug){
+        return Product::with(['category','review'])->where('slug',$slug)->first();
     }
 }

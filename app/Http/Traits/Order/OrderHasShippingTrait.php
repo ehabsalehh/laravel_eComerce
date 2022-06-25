@@ -7,11 +7,10 @@ use App\Http\Traits\Cart\CartTotalPriceTrait;
 
 trait OrderHasShippingTrait
 {
-    use CartTotalPriceTrait;
     protected function orderHasShipping($request){
         if($request->shipping_id){
             $shipping =Shipping::where('id', $request->shipping_id)->select('price')->first();  
-            return $this->total_Price()->total +$shipping->price;    
+            return $shipping->price;    
         }
     }
 

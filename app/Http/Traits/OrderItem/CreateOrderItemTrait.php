@@ -7,6 +7,7 @@ trait CreateOrderItemTrait{
                 'order_id' => $orderid,
                 'product_id'=>$item->product_id,
                 'customer_id'=>$item->customer_id,
+                'quantity'=>$item->quantity,
             ]);
     
     }

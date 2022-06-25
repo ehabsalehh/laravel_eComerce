@@ -17,12 +17,10 @@ class OrderResource extends JsonResource
         return [
             'id'=>$this->id,
             'order_number' => $this->order_number,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'country' => $this->country,
-            'post_code' => $this->post_code,
+            'status' => $this->status,
+            'sub_total' => $this->sub_total,
+            'total_discount' => $this->total_discount,
+            'total' => $this->total,
             'orderItems' => OrderItemResource::collection($this->orderItems),
             
             'orderItemCount' => $this->orderItems->count(),

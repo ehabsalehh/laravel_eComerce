@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MatchOldPassword;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReqisterEmployeeRequest extends FormRequest
+class ChangePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,14 +26,9 @@ class ReqisterEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' =>['string','required','unique:Employees,email'],
-            'password' => ['required','confirmed',Password::min(8)->mixedCase()],
-            'first_name' => ['string','required'],
-            'last_name' => ['string','required'],
-            'Birth_date' => ['date','required'],
-            'photo' => ['image','required'],
-            'note' => ['string','required'],
-
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required',Password::min(8)->mixedCase()],
+            'password_confirmation' => ['same:new_password'],
         ];
     }
 }
