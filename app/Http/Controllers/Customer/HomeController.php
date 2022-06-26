@@ -31,8 +31,9 @@ class HomeController extends Controller
         return ResponseMessage::succesfulResponse();
     }
     public function orderIndex(){
-        return  Order::join('order_items','orders.id','order_items.order_id')
-        ->where('order_items.customer_id',Auth::id())->orderByDesc('orders.id')->paginate(10);
+        return  Order::where('orders.customer_id',Auth::id())
+        ->orderByDesc('orders.id')
+        ->with('orderItems')->paginate(10);
     }
     public function productTrackOrder(Request $request){
         $order=Order::where('customer_id',auth()->user()->id)->where('order_number',$request->order_number)->first();
@@ -53,5 +54,6 @@ class HomeController extends Controller
         }
         return ResponseMessage::failedResponse();
     }
+
     
 }
