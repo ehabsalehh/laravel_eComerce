@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Customer;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
@@ -13,7 +15,6 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Traits\Category\GetActiveCategoryTrait;
 use App\Http\Traits\Category\GetPopularCtegoryTrait;
 use App\Http\Traits\Product\GetActiveProductByCategoryTrait;
-use App\Models\Supplier;
 
 class FrontendController extends Controller
 {
@@ -38,7 +39,7 @@ class FrontendController extends Controller
     }
     
     public function viewProduct($product_slug){
-            $viewproduct = Product::Slug($product_slug)->with('rating','review')->get();
+            $viewproduct = Product::Slug($product_slug)->ProductWith()->get();
             return  ProductResource::collection($viewproduct);
     }
     public function productGrids(){
@@ -66,6 +67,7 @@ class FrontendController extends Controller
         $products=$products->where('status','active')->productWith()->paginate(10);
         return  ProductResource::collection($products);
     }
+
     public function sortProductByName(string $sort){
        $product= Product::where('status','active')->orderBy('name',$sort)
        ->productWith()
@@ -93,45 +95,44 @@ class FrontendController extends Controller
         return DB::table('products')
             ->join('order_items', 'products.id', '=', 'order_items.product_id')
             ->where('products.category_id',$category)
-            ->groupBy('order_items.product_id','product_name')
+            ->orWhere('products.child_category_id',$category)
+            ->groupBy('order_items.product_id','products.name')
             ->orderByDesc('bestSeller')
             ->select('products.name as product_name',DB::raw('count(order_items.product_id) as bestSeller'))
             ->limit(10)
             ->get();
 
     }
-    public function newReleases(){
-        return Product::where('status','active')->orderByDesc('id')->limit(10)->get();
+    public function productSearch(Request $request){
+        $productSearch= Product::orWhere('name','like','%'.$request->search.'%')
+                 ->orWhere('slug','like','%'.$request->search.'%')
+                 ->orWhere('price','like','%'.$request->search.'%')
+                 ->orWhere('size','like','%'.$request->search.'%')
+                 ->OrderByDesc('id')
+                 ->with(['category','sub_category','review','discount','rating'])
+                 ->paginate(10);
+         return ProductResource::collection($productSearch);
+     }
+    public function newArrivals($days){
+        return Product::where('status','active')
+                ->where( 'created_at', '<', Carbon::now()->subDays($days))
+                ->orderByDesc('id')->limit(10)->get();
     }
     public function getAllcategory(){
         return  Category::with('parent_info')->paginate(10);
     }
     public function getAllProduct(){
-        $product =Product::with(['sub_category','category'])->get();
+        $product =Product::ProductWith()->get();
         return ProductResource::collection($product);
     }
     public function productByCategory(Request $request){
-        $product =Category::where('slug',$request->slug)->with(['products'])->paginate();
-        return CategoryResource::collection($product);
-    }
-    public function productBySubCategory(Request $request){
-        $product =Category::where('slug',$request->slug)->with(['sub_products'])->paginate();
+        $product =Category::where('slug',$request->slug)->with(['products','sub_products'])->paginate(10);
         return CategoryResource::collection($product);
     }
     public function productDetails(Request $request ){
-        return $getProduct= Product::where('slug',$request->slug)->with(['category','sub_category','review','discount','rating'])->get();
+        return $getProduct= Product::where('slug',$request->slug)->ProductWith()->get();
        return new  ProductResource($getProduct);
 
-    }
-    public function productSearch(Request $request){
-       $productSearch= Product::orWhere('name','like','%'.$request->search.'%')
-                ->orWhere('slug','like','%'.$request->search.'%')
-                ->orWhere('price','like','%'.$request->search.'%')
-                ->orWhere('size','like','%'.$request->search.'%')
-                ->OrderByDesc('id')
-                ->with(['category','sub_category','review','discount','rating'])
-                ->paginate(10);
-        return ProductResource::collection($productSearch);
     }
     public function ProductBrand(Request $request){
         return Brand::where('slug',$request->slug)->with('products')->limit(10)->get();

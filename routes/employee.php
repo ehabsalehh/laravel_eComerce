@@ -27,6 +27,8 @@ Route::group(["middleware"=> ["auth:sanctum"]],function(){
  route::get("/category/{category}",[CategoryController::class,'show']);
  route::post("/category/{category}",[CategoryController::class,'update']);
  route::delete("/category/{category}",[CategoryController::class,'destroy']);
+ route::post("/Test",[CategoryController::class,'Test']);
+
 // // Customers
 // route::get('getAllCustomers',[CustomerController::class,'index']);
 // // suppliers
@@ -55,7 +57,9 @@ route::delete("/shipping/{shipping}",[ShippingController::class,'destroy']);
  route::get('orders/{order}',[OrderController::class,'show']);
  route::post('update_order',[OrderController::class,'update']);
  route::post('Delete_order/{order}',[OrderController::class,'destroy']);
- route::post('return_item',[OrderController::class,'return_item']);
+ route::post('/return_item',[OrderController::class,'return_item']);
+ route::post('/decreaseQuantity',[OrderController::class,'decreaseQuantity']);
+
 
  
 //  // Dashboard

@@ -2,33 +2,53 @@
 
 namespace App\Http\Controllers\Admin;
 use App\Models\Category;
+use App\Models\OrderItem;
 use App\services\ResponseMessage;
+
 use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Facades\Auth;
+use App\Services\Category\CategoryData;
 use App\Http\Resources\CategoryResource;
-
 use App\Services\Category\StoreCategory;
-
 use App\Services\Category\UpdateCategory;
 use App\Http\Requests\storedCategoryRequest;
+use App\Services\Category\UpdateCategoryFile;
 use App\Services\Category\UploadCategoryFile;
+use App\Http\Traits\Product\GetInventoryTrait;
+use App\Services\Category\UpdateCategoryPhoto;
 use App\Http\Traits\handleFile\CreateModelWithOptionalFileTrait;
 use App\Http\Traits\handleFile\UpdateModelWithOptionalFileTrait;
-use App\Services\Category\CategoryData;
-use App\Services\Category\UpdateCategoryFile;
-use App\Services\Category\UpdateCategoryPhoto;
+use App\Models\Order;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     private $store;
     private $updateCategory;
     use UpdateModelWithOptionalFileTrait,
-        CreateModelWithOptionalFileTrait
+        CreateModelWithOptionalFileTrait,
+        GetInventoryTrait
+
     ;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected function decreseInventoryQuantity($item){
+        $inventory = $this->getInventory($item->product_id);
+        $inventory->quantity -=  $item->quantity; 
+        $inventory->save();
+    }
+    public function Test(Request $request){
+         
+         }
+
+    
+       
+
+    }
     public function index()
     {
         return  CategoryResource::collection(Category::get());

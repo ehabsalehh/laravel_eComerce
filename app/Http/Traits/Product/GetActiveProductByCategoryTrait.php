@@ -8,6 +8,8 @@ trait GetActiveProductByCategoryTrait
 {
     protected  function getActiveProductByCategory($category_id){
         return Product::getProductByCategory($category_id)
-                ->getActiveProduct()->with('category')->get();
+                        ->getProductByChildCategory($category_id)
+                ->getActiveProduct()
+                ->ProductWith()->get();
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('quantity')->default(1);
             $table->foreignId('product_id')->constrained('products');
-            $table->unsignedBigInteger('location_id');
+            $table->unsignedBigInteger('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('SET NULL');
             $table->timestamps();
         });

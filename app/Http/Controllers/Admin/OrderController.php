@@ -21,6 +21,7 @@ use App\Http\Interface\OrderTrackerInterface;
 use App\Http\Traits\Order\CancelOrderStausTrait;
 use App\Http\Traits\Order\UpdateOrderStausTrait;
 use App\Http\Traits\OrderItem\GetOrderItemTrait;
+use App\Services\Order\DecreaseInventoryQuantityService;
 
 class OrderController extends Controller
 {
@@ -30,6 +31,8 @@ class OrderController extends Controller
     ;
     
         private $returnItem;
+        private $decreaseQuantity;
+
     /**
      * Display a listing of the resource.
      *
@@ -93,8 +96,11 @@ class OrderController extends Controller
     {
         $this->returnItem = $returnItem;
        return  $this->returnItem->returnItem($request);  
-        // return $this->getProductOrderItem($request);
-        // return $this->decreaseOrderTotalPrice($request);
+    }
+    // in case not decrease in placeorder
+    public function decreaseQuantity(Request $request,DecreaseInventoryQuantityService $decreaseQuantity){
+        $this->decreaseQuantity = $decreaseQuantity;
+        return $this->decreaseQuantity->decreaseQuantity($request);   
     }
     
 

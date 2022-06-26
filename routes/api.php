@@ -33,12 +33,11 @@ route::post("loginCustomer",[AuthCustomerController::class,'login']);
  // viewers
     route::get('viewerIndex',[FrontendController::class,'index']);
     route::get("/activeCategory",[FrontendController::class,'activeCategory']);
-    route::get("/viewCategoryWithProducts/{id}",[FrontendController::class,'viewCategoryWithProducts']);
     route::get("/viewProduct/{product_slug}",[FrontendController::class,'viewProduct']);
     route::get("/activeProductByCategory/{categoryid}",[FrontendController::class,'activeProductByCategory']);
     Route::get('productSearch/{search}',[FrontendController::class,'productSearch']);
     Route::get('bestSeller/{category}',[FrontendController::class,'bestSeller']);
-    Route::get('newReleases',[FrontendController::class,'newReleases']);
+    Route::get('newArrivals/{days}',[FrontendController::class,'newArrivals']);
     Route::get('getAllcategory',[FrontendController::class,'getAllcategory']);
     Route::get('getAllProduct',[FrontendController::class,'getAllProduct']);
     Route::get('productDetails/{slug}',[FrontendController::class,'productDetails']);

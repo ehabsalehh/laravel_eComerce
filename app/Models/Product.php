@@ -30,17 +30,15 @@ class Product extends Model
         'discount_id',
 
     ];
-    public function scopeProductWith($query){
-        return $query->with(['discount','category','sub_category','rating','review']);
-
-    }
-    public function scopeGetProductDiscount($query){
-        return $query->join('discounts','products.discount_id','discounts.id')
-        ->select('products.price','discounts.percent')
-        ->first();
-    }
     public function orderItems(){
         return $this->hasMany(OrderItem::class);
+    }
+    // Get the  category that owns the product .
+    public function category(){
+        return $this->belongsTo(category::class);
+    }
+    public function sub_category(){
+        return $this->hasOne(category::class,'id','child_category_id');
     }
     public function inventory(){
         return $this->hasMany(Inventory::class);
@@ -55,13 +53,6 @@ class Product extends Model
     public function Customer(){
         return $this->belongsTo(Customer::class);
     }
-    // Get the  category that owns the product .
-    public function category(){
-        return $this->belongsTo(category::class);
-    }
-    public function sub_category(){
-        return $this->hasOne(category::class,'id','child_category_id');
-    }
     // Get the  Brand that owns the product .
     public function brand(){
         return $this->belongsTo(Brand::class);
@@ -71,11 +62,23 @@ class Product extends Model
     }
 
     // local scope
+    public function scopeProductWith($query){
+        return $query->with(['discount','category','sub_category','rating','review']);
+
+    }
+    // public function scopeGetProductDiscount($query){
+    //     return $query->join('discounts','products.discount_id','discounts.id')
+    //     ->select('products.price','discounts.percent')
+    //     ->first();
+    // }
     public function scopeGetActiveProduct($query){
         return $query->where('status','active');
     }
     public function scopeGetProductByCategory($query,$category_id){
-        return $query->where('category_id',$category_id);
+        return $query->OrWhere('category_id',$category_id);
+    }
+    public function scopeGetProductByChildCategory($query,$category_id){
+        return $query->orWhere('child_category_id',$category_id);
     }
     public function scopeSlug($query,$slug) {
         return $query->where('slug',$slug);

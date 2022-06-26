@@ -52,4 +52,25 @@ class Customer extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    //orderItem, cart, wishlist,
+    public function carts(){
+        return $this->hasMany(Cart::class);
+    }
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+    public function orderItems(){
+        return $this->hasMany(orderItems::class);
+    }
+    public function ratings(){
+        return $this->hasMany(Rating::class);
+    }
+    public function reviews(){
+       
+        return $this->hasMany(Review::class);
+    }
+    public function wishLists(){
+        return $this->hasMany(WishList::class);
+    }
+
 }

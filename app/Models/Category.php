@@ -27,9 +27,6 @@ class Category extends Model
     public function child_category(){
         return $this->hasMany(Category::class,'parent_id','id')->where('status','active');
     }
-    public static function getAllParentWithChild(){
-        return Category::with('child_category')->where('is_parent',1)->where('status','active')->orderBy('name','ASC')->get();
-    }
     public function products(){
         return $this->hasMany(Product::class)->where('status','active');
     }
@@ -37,21 +34,17 @@ class Category extends Model
         return $this->hasMany(Product::class,'child_category_id','id')->where('status','active');
     }
     public static function getProductByCat($slug){
-        // dd($slug);
         return Category::with('products')->where('slug',$slug)->first();
-        // return Product::where('cat_id',$id)->where('child_cat_id',null)->paginate(10);
     }
     public static function getProductBySubCat($slug){
-        // return $slug;
         return Category::with('sub_products')->where('slug',$slug)->first();
     }
-    //  Get the products for the product.
    public function scopeSlug($query,$slug) {
     return $query->where('slug',$slug);
    }
    public static function activeCategory(){
     return Category::where('status','active')->paginate(20);
-}
+    }
    
 
 }

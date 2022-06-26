@@ -19,4 +19,10 @@ class Inventory extends Model
     {
         return $query->where('product_id',$product);
     }
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
+    public function locations(){
+        return $this->hasMany(location::class);
+    }
 }

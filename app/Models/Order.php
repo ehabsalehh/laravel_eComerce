@@ -24,7 +24,15 @@ class Order extends Model
     public function orderItems(){
         return $this->hasMany(orderItem::class);
     }
-    
+    public function customer(){
+        return $this->belongsTo(Customer::class);
+    }
+    public function shipping(){
+        return $this->belongsTo(Shipping::class);
+    }
+    public function employee(){
+        return $this->belongsTo(employee::class);
+    }
     public function scopeCustomerId($query,$id) {
         return $query->where('customer_id',$id);
     }
