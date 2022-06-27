@@ -37,7 +37,7 @@ route::post("loginCustomer",[AuthCustomerController::class,'login']);
     route::get("/activeProductByCategory/{categoryid}",[FrontendController::class,'activeProductByCategory']);
     Route::get('productSearch/{search}',[FrontendController::class,'productSearch']);
     Route::get('bestSeller/{category}',[FrontendController::class,'bestSeller']);
-    Route::get('newArrivals/{days}',[FrontendController::class,'newArrivals']);
+    Route::get('newArrivals/{days}',[FrontendController::class,'newArrioavals']);
     Route::get('getAllcategory',[FrontendController::class,'getAllcategory']);
     Route::get('getAllProduct',[FrontendController::class,'getAllProduct']);
     Route::get('productDetails/{slug}',[FrontendController::class,'productDetails']);

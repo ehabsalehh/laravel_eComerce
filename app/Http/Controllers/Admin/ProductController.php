@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return  ProductResource::collection(Product::with('category','rating','review')->get());
+        return  ProductResource::collection(Product::ProductWith()->get());
     }
 
     /**

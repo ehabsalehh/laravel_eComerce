@@ -45,7 +45,7 @@ class CartController extends Controller
      }
      public function  deleteCart(Request $request,Cart $cart){
         if ($request->user()->cannot('update', $cart)) {
-            return ResponseMessage::failedResponse();
+            return;
          }
          $cart->delete();
          return ResponseMessage::succesfulResponse();

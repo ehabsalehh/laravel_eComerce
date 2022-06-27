@@ -23,11 +23,11 @@ class placeOrderService{
             DB::beginTransaction();
             $order = $this->CreateOrder($request);
             $cartItems = $this->getCustomerCart();
-            foreach($cartItems as $item){
+            $cartItems->map(function($item)use($order){
                 $this->CreateOrderItem($order->id,$item);
-                // if product status =delivered 
-                $this->decreseInventoryQuantity($item); 
-            }
+                // if order status not new 
+                $this->decreseInventoryQuantity($item);
+            });
             $this->destroyCustomerCart();
             DB::commit();
             return ResponseMessage::succesfulResponse();

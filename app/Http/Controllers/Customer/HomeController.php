@@ -52,7 +52,7 @@ class HomeController extends Controller
         if($order->status =='new'){
             return $this->cancelOrderStaus($order);
         }
-        return ResponseMessage::failedResponse();
+        return ;
     }
 
     

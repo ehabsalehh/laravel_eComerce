@@ -28,7 +28,7 @@ trait ReturnItemTrait
             // order Should be sold before 15 days to return
             $created = new Carbon($orderItems->created_at);
             $now = Carbon::now();
-            if($created->diff($now)->days >15){return ResponseMessage::failedResponse();}
+            if($created->diff($now)->days >15){return ;}
             $this->DecreaseOrderItemQuantity($orderItems,$inventory);
             // done
             $order = Order::findOrFail($orderItems->order_id);

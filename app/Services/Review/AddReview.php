@@ -15,7 +15,7 @@ class AddReview
     private $data;
     public function addReview($request){
         if(count($this->verifiedPurchaseOrder($request->product_id))==0){
-            return ResponseMessage::failedResponse();
+            return ;
         }
         $this->data = $request->validated();
         $this->data['customer_id'] =Auth::id();

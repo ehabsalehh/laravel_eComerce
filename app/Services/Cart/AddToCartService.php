@@ -1,13 +1,10 @@
 <?php
 namespace App\services\Cart;
 
-use App\Models\Cart;
-use App\Models\Product;
 use App\Models\Inventory;
 use App\services\ResponseMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Services\QuantityLessThanOne;
 use App\Http\Traits\Cart\CreateNewCartTrait;
 use App\Http\Traits\Cart\GetCartproductTrait;
 use App\Http\Traits\Cart\QuantiyLessThanOneTrait;
@@ -32,7 +29,7 @@ class AddToCartService {
         // check if there are proucts less than order quantity or product quantity less than  request of product_quantity
         if(!$this->inventory|| $this->quantityLessThanOne($request->quantity) 
                     ||$this->quantityLessThanOrder($this->inventory->quantity,$request->quantity)){
-            return ResponseMessage::failedResponse();
+            return ;
         }
         // check if product already exist  in cart Table
         $this->alreadyInCart= $this->getCartproduct($request->product_id,Auth::id());
@@ -42,7 +39,7 @@ class AddToCartService {
 
         $this->totalOrderQuantity = $this->totalOrderQuantity($request->quantity,$this->alreadyInCart->quantity);
         if($this->quantityLessThanOrder($this->inventory->quantity,$this->totalOrderQuantity)){
-            return ResponseMessage::failedResponse();
+            return ;
         }
         $this->increaseProductQuantity($this->alreadyInCart,$request);
         $this->alreadyInCart->save();

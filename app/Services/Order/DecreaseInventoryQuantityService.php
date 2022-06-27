@@ -14,14 +14,14 @@ class DecreaseInventoryQuantityService
     public function decreaseQuantity($request){
         $order = Order::where('order_number',$request->order_number)
          ->where('status','<>','new')
-         ->first();
-         if(!empty($order)){
+         ->firstOrFail();
+        //  if(isset($order)){
             $orderitem= OrderItem::getOrderOwner(Auth::id())->getOrrderItems($order->id)->get();
-             foreach($orderitem as $item){
+            $orderitem->map(function($item){
                 $this->decreseInventoryQuantity($item);
-            }
+            });
             return ResponseMessage::succesfulResponse();
-         }
+        //  }
     }
 
 }
