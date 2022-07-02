@@ -9,10 +9,10 @@ use App\services\ResponseMessage;
 trait CancelOrderStausTrait
 {
     protected function cancelOrderStaus($order){
-        $orderItem= OrderItem::where('order_id' ,$order->id)->get()->pluck('id');
-            OrderItem::destroy($orderItem);
+        $order->when($order->status == 'cancel',function()use($order){
+            // $order->orderItems->delete();
             $order->delete();
-            return ResponseMessage::succesfulResponse();
+        });
 
     }
 

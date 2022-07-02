@@ -21,9 +21,7 @@ class OrderResource extends JsonResource
             'sub_total' => $this->sub_total,
             'total_discount' => $this->total_discount,
             'total' => $this->total,
-            'orderItems' => OrderItemResource::collection($this->orderItems),
-            
-            'orderItemCount' => $this->orderItems->count(),
+            'orderItems' =>  $this->whenloaded('orderItems'),
         ];
     }
 }

@@ -3,39 +3,49 @@ namespace App\Http\Traits\Order;
 
 use App\Models\Order;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Traits\Cart\CartTotalPriceTrait;
+use Illuminate\Support\Facades\Auth;;
 use App\Http\Traits\Cart\SubTotalPriceTrait;
-use App\Http\Traits\Cart\TotalPriceTrait;
-use App\Http\Traits\Cart\TotalPriceWithDiscountTrait;
-use App\Models\Product;
-use App\Models\Shipping;
-use App\services\ResponseMessage;
+
+
 
 trait CreateOrderTrait{
     use 
     OrderHasShippingTrait,
-    // TotalPriceTrait,
     SubTotalPriceTrait
 ;
     protected function CreateOrder($request){
         $data= $request->validated();
         $data['customer_id'] = Auth::id();  
-        $data['order_number']='ORD-'.strtoupper(Str::random(10));
-        // toatl = subtotal - disc  && if order has shipping add shipping price to total
-        $calculateTotal= $this->subTotal();
-        $total_discount =$calculateTotal->total_disc;
-        $subTotal =$calculateTotal->sub_total;
-        $total = $subTotal - $total_discount;
-        $hasShipping = $this->orderHasShipping($request);
-        $data ['sub_total'] = $subTotal;    
-        $data ['total_discount'] = $total_discount;
-        $data ['total'] = $hasShipping?$hasShipping + $total:$total;
+        $data['order_number'] ='ORD-'.strtoupper(Str::random(10));
+        $data['sub_total'] = $request->sub_total;    
+        $data['total_discount'] = $request->total_discount;
+        $shippingPrice= $this->orderHasShipping($request);
+        $data['total'] =$request->total+$shippingPrice ;
+        return  Order::create($data);
 
-        // $data ['total'] = $this->orderHasShipping($request)
-        //     ?$this->orderHasShipping($request)+($this->subTotal()->sub_total - $this->subTotal()->total_disc)
-        //     :$this->subTotal()->sub_total - $this->subTotal()->total_disc;    
-         return  Order::create($data);
+        // $calculateTotal= $this->subTotal();
+        // if(isset($calculateTotal)){
+        //     $subTotal =$calculateTotal->sub_total;
+        //     $couponPercent = session('couponPercent');
+        //     $couponDiscountValue= isset($couponPercent)?session()->get('couponPercent')/100*$subTotal:0;
+        //     $total_discount =$calculateTotal->total_disc+$couponDiscountValue;
+        //     $total = $subTotal - $total_discount;
+            
+        //     if(request()->has('shipping_id') ){
+        //         $shipping =Shipping::where('id', request()->shipping_id)->select('price')->first();
+        //         $data['total'] =$total +$shipping->price ;
+        //     }else{
+        //         $data['total'] = $total;
+        //     }
+        //     $data['sub_total'] = $subTotal;    
+        //     $data['total_discount'] = $total_discount;
+        //    
+        //     $data['status']="new";
+
+        // return  Order::create($data);
+         
+        // }
+
     }
 
 }

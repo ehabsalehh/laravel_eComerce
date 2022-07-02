@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Brand;
-use App\Services\Brand\StoreBrand;
-use App\Services\Brand\UpdateBrand;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BrandResource;
-use App\Services\Brand\BrandStructure;
 use App\Http\Requests\StoredBrandRequest;
 use App\Services\Brand\BrandData;
 use App\services\ResponseMessage;

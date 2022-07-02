@@ -27,7 +27,7 @@ class FrontendController extends Controller
     public function index(){
         $active_products= Product::activeProduct();
         $active_categories =Category::activeCategory();
-        $data =['popular_products'=>$active_products,'popular_categories',$active_categories]; 
+        $data =['active_products'=>$active_products,'active_categories',$active_categories]; 
         return response()->json(['data'=>$data]);
     }
 

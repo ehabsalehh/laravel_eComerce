@@ -7,8 +7,6 @@ use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 use App\Http\Requests\storedProductRequest;
-use App\Http\Traits\handleFile\CreateModelWithFileTrait;
-use App\Http\Traits\handleFile\UpdateModelWithFileTrait;
 use App\Services\product\StoreProduct;
 use App\Services\Product\UpdateProduct;
 
@@ -16,10 +14,6 @@ class ProductController extends Controller
 {
     private $store;
     private $update;
-     use CreateModelWithFileTrait,
-     UpdateModelWithFileTrait
- 
-    ;
     /**
      * Display a listing of the resource.
      *

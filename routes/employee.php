@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ShippingController;
@@ -14,7 +15,6 @@ use App\Http\Controllers\Admin\DiscountTController;
 use App\Http\Controllers\Auth\AuthEmployeeController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Admin\ChangePasswordController;
-
 
 Route::post('/registerEmployee', [AuthEmployeeController::class, 'register']); 
 Route::post("/loginEmployee",[AuthEmployeeController::class,"login"]);
@@ -55,10 +55,12 @@ route::delete("/shipping/{shipping}",[ShippingController::class,'destroy']);
  route::get('getOrderItems/{id}',[OrderController::class,'getOrderItems']);
  route::get('order_status/{status}',[OrderController::class,'order_status']);
  route::get('orders/{order}',[OrderController::class,'show']);
- route::post('update_order',[OrderController::class,'update']);
+ route::post('update_order/{order}',[OrderController::class,'updateStatus']);
  route::post('Delete_order/{order}',[OrderController::class,'destroy']);
  route::post('/return_item',[OrderController::class,'return_item']);
  route::post('/decreaseQuantity',[OrderController::class,'decreaseQuantity']);
+ route::get('/SubTotalPrice',[OrderController::class,'SubTotalPrice']);
+
 
 
  
@@ -82,6 +84,8 @@ route::delete("/shipping/{shipping}",[ShippingController::class,'destroy']);
 //  Discount
 route::post('discount',[DiscountTController::class,'store']);
 route::post('discount/{discount}',[DiscountTController::class,'update']);
+// Cupon
+route::apiResource('coupon',CouponController::class);
 
 //cahngePassword
 Route::group(['prefix'=>'employee'],function(){

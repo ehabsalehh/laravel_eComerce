@@ -1,33 +1,25 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
+use App\Models\Coupon;
 use App\Models\Category;
-use App\Models\OrderItem;
+use Illuminate\Http\Request;
 use App\services\ResponseMessage;
-
 use App\Http\Controllers\Controller;
-
-use Illuminate\Support\Facades\Auth;
-use App\Services\Category\CategoryData;
 use App\Http\Resources\CategoryResource;
 use App\Services\Category\StoreCategory;
+
+
 use App\Services\Category\UpdateCategory;
 use App\Http\Requests\storedCategoryRequest;
-use App\Services\Category\UpdateCategoryFile;
-use App\Services\Category\UploadCategoryFile;
 use App\Http\Traits\Product\GetInventoryTrait;
-use App\Services\Category\UpdateCategoryPhoto;
-use App\Http\Traits\handleFile\CreateModelWithOptionalFileTrait;
-use App\Http\Traits\handleFile\UpdateModelWithOptionalFileTrait;
-use App\Models\Order;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     private $store;
     private $updateCategory;
-    use UpdateModelWithOptionalFileTrait,
-        CreateModelWithOptionalFileTrait,
+    use 
         GetInventoryTrait
 
     ;
@@ -42,12 +34,9 @@ class CategoryController extends Controller
         $inventory->save();
     }
     public function Test(Request $request){
-         
-         }
-
-    
-       
-
+        $coupon=Coupon::where('code',$request->code)->first();
+        return $coupon->percent;
+     
     }
     public function index()
     {
@@ -83,10 +72,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(storedCategoryRequest $request,Category $category)
-    // {
-    //     return $this->updateModelWithOptionalFile($request,$category,$category->photo,'photo','categories');
-    // }
+    
     public function update(storedCategoryRequest $request,UpdateCategory $updateCategory,Category $category)
     {
         $this->updateCategory = $updateCategory;

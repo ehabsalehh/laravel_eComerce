@@ -18,8 +18,8 @@ class cartResource extends JsonResource
             'product_id' =>$this->product_id,
             'customer_id' =>$this->customer_id,
             'product_quantity' =>$this->product_quantity,
-            'customers' => $this->whenloaded('customer')->name,
-            'product_name' => $this->whenloaded('product')->name,
+            'customers' => $this->whenloaded('customer'),
+            'product_name' => $this->whenloaded('product'),
         ];
     }
 }

@@ -10,6 +10,7 @@
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.7",
+        "laravel/ui": "^3.4",
         "srmklive/paypal": "^3.0"
     },
     "require-dev": {
@@ -31,7 +32,10 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }
+        },
+        "files":[
+            "app/Http/Helpers.php"
+        ]
     },
     "scripts": {
         "post-autoload-dump": [

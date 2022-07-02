@@ -50,9 +50,8 @@ class HomeController extends Controller
     public function customerOrderDelete(Order $order){
         $this->authorize('delete', $order);
         if($order->status =='new'){
-            return $this->cancelOrderStaus($order);
+            $order->delete();
         }
-        return ;
     }
 
     

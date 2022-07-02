@@ -10,10 +10,12 @@ class LoginCustomer
 {
     public function Login($request){
         $Customer = Customer::where('email', $request->email)->first();
+        
             if (! $Customer || ! Hash::check($request->password, $Customer->password)) {
-                return ;
+                return 'not found';
             }
-        return $Customer->createToken("myapp")->plainTextToken;  
+            return to_route('createTransaction');
+        // return $Customer->createToken("myapp")->plainTextToken;  
     }
 
 }

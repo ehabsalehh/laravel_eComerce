@@ -14,8 +14,10 @@ use App\Http\Controllers\Customer\FrontendController;
 use App\Http\Controllers\Customer\WishListController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\TestController;
 use App\Http\Controllers\Auth\AuthCustomerController;
 use App\Http\Controllers\Customer\HomeController;
+use App\Http\Controllers\Customer\PaypalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,16 +54,20 @@ route::post("loginCustomer",[AuthCustomerController::class,'login']);
 
 Route::group(["middleware"=> ["auth:sanctum"]],function(){
     // front end
+    // Test
+    Route::get('test',[TestController::class,'calculateTotalPrice']);
     // cartController
-    route::get('/index',[CartController::class,'index']);
-    route::get('/CartCount',[CartController::class,'CartCount']);
-    route::post('/addToCart',[CartController::class,'addToCart']);
-    route::post('/remove',[CartController::class,'remove']);
-    route::get('/subTotalprice',[CartController::class,'subTotalprice']);
-    route::post('/deleteCart/{cart}',[CartController::class,'deleteCart']);
+    Route::get('/index',[CartController::class,'index']);
+    Route::get('/CartCount',[CartController::class,'CartCount']);
+    Route::post('/addToCart',[CartController::class,'addToCart']);
+    Route::post('/remove',[CartController::class,'remove']);
+    Route::get('/subTotalprice',[CartController::class,'subTotalprice']);
+    Route::post('/deleteCart/{cart}',[CartController::class,'deleteCart']);
 
     // checkOutController
-    route::post('/placeOrder',[CheckoutController::class,'placeOrder']);
+    // Route::post('couponStore',[CheckoutController::class,'couponStore']);
+    Route::post('/placeOrder',[CheckoutController::class,'placeOrder']);
+    
 
     // WhishList
     Route::get('WishList',[WishListController::class,'index']);

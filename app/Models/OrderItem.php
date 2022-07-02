@@ -27,7 +27,7 @@ class OrderItem extends Model
     public function scopeHasProduct($query,$product_id){
         return $query->where('product_id',$product_id);
     }
-    public function scopeGetOrrderItems($query,$orderId){
+    public function scopeGetOrderItems($query,$orderId){
        return $query->where('order_id',$orderId);
     } 
     public function scopeGetOrderOwner($query,$customer_id){

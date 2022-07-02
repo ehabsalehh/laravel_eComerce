@@ -4,30 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Http\Request;
-use GuzzleHttp\Psr7\Response;
-use Illuminate\Support\Carbon;
-use App\Services\Order\OrderTrack;
-use App\Services\Order\ReturnItem;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
-use App\Services\Order\OrderCalculator;
 use App\Http\Requests\ReturnItemRequest;
 use App\Http\Resources\OrderItemResource;
 use App\Services\Order\ReturnItemService;
 use App\Http\Requests\UpdatedOrderRequest;
 use App\Http\Traits\Order\ReturnItemTrait;
-use App\Http\Interface\OrderTrackerInterface;
-use App\Http\Traits\Order\CancelOrderStausTrait;
+use App\Http\Traits\Cart\SubTotalPriceTrait;
 use App\Http\Traits\Order\UpdateOrderStausTrait;
-use App\Http\Traits\OrderItem\GetOrderItemTrait;
-use App\Services\Order\DecreaseInventoryQuantityService;
+
+use function PHPUnit\Framework\isNull;
 
 class OrderController extends Controller
 {
     use UpdateOrderStausTrait,
-        CancelOrderStausTrait,
-        ReturnItemTrait
+        ReturnItemTrait,
+        SubTotalPriceTrait
     ;
     
         private $returnItem;
@@ -44,12 +37,13 @@ class OrderController extends Controller
         return  OrderResource::collection(Order::getStatusNewOrder()->with('orderItems.product')->paginate(2));
     }
     public function getOrderItems($orderId){
-        return OrderItemResource::collection(OrderItem::getOrrderItems($orderId)->with('product')->get());
+        return OrderItemResource::collection(OrderItem::getOrderItems($orderId)->with('product')->get());
     }
     
     // return order based on status
     public function order_status($status)
     {
+        // return Order::getOrderByStatus($status)->with('orderItems.product')->get();
         return  OrderResource::collection(Order::getOrderByStatus($status)->with('orderItems.product')->get());
     }
     /**
@@ -60,13 +54,6 @@ class OrderController extends Controller
      */
     public function show( Order $order)
     {
-        $created = new Carbon($order->created_at);
-        $now = Carbon::now();
-        $difference = ($created->diff($now)->days < 1)
-            ? 'today'
-            : $created->diffForHumans($now);
-        return $difference;
-
         return new OrderResource($order->with('orderItems.product')->first());
     }    
 
@@ -77,9 +64,9 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatedOrderRequest $request)
+    public function updateStatus(UpdatedOrderRequest $request,Order $order)
     {
-        return $this->updateOrderStaus($request);
+        return $this->updateOrderStaus($request,$order);
     }
 
     /**
@@ -90,18 +77,23 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        return $this->cancelOrderStaus($order);
+        return $order->delete();
     }
     public function return_item(ReturnItemRequest $request,ReturnItemService $returnItem)
     {
         $this->returnItem = $returnItem;
        return  $this->returnItem->returnItem($request);  
     }
-    // in case not decrease in placeorder
-    public function decreaseQuantity(Request $request,DecreaseInventoryQuantityService $decreaseQuantity){
-        $this->decreaseQuantity = $decreaseQuantity;
-        return $this->decreaseQuantity->decreaseQuantity($request);   
-    }
+    // public function SubTotalPrice(){
+    //     $calculateTotal = $this->subTotal();
+    //     $total_discount =$calculateTotal->total_disc;
+    //     $subTotal =$calculateTotal->sub_total;
+    //     $total = $subTotal - $total_discount;
+    //     $couponPercent = session('couponPercent');
+    //     return $couponDiscountValue= isset($couponPercent)?session()->get('couponPercent')/100*$subTotal:0;   
+    //    return $calculateTotal;
+    // } 
+    
     
 
     

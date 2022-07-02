@@ -2,7 +2,7 @@
 
 namespace App\Http\Traits\Product;
 
-trait DecreseProductQuantityTrait
+trait DecreseInventoryQuantityTrait
 {
 use GetInventoryTrait;
 protected function decreseInventoryQuantity($item){

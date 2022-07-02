@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDisountRequest;
 use App\Models\Discount;
 use App\services\ResponseMessage;
-use Illuminate\Http\Request;
 
 class DiscountTController extends Controller
 {
