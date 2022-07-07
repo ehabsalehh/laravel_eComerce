@@ -24,10 +24,10 @@ class StoredOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'status' =>["required","in:new,process,delivered,cancel"],
+            // 'status' =>["required","in:new,process,delivered,cancel"],
             'shipping_id'=>['exists:shippings,id'],
-            'employee_id'=>['exists:employees,id'],
-            'customer_id'=>['exists:customers,id'],
+            // 'employee_id'=>['exists:employees,id'],
+            // 'customer_id'=>['exists:customers,id'],
 
         ];
     }

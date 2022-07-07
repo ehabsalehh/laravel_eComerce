@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Customer\PayPalController;
 use App\Http\Controllers\Auth\AuthCustomerController;
 use App\Http\Controllers\Customer\CheckoutController;
+use App\Models\Customer;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,23 +19,22 @@ use App\Http\Controllers\Customer\CheckoutController;
 // Auth::routes();
 
 Route::get('/', function () {
-    return view('login');
+    return view('auth.login');
 });
+// Route::get('/', function () {
+//     // auth()->login(Customer::first());
+//     return view('welcome');
+// });
 
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+route::post("loginCustomer",[AuthCustomerController::class,'login'])->name('loginCustomer');
 Route::group(['middleware' => ['auth']], function() {
-    
+    Route::get('viewCheckOut',[CheckoutController::class,'view'])->name('viewCheckOut');
     Route::post('/placeOrder',[CheckoutController::class,'placeOrder'])->name('placeOrder');
-    Route::post('couponStore',[CheckoutController::class,'coupon_Store'])->name('couponStore');
+    Route::post('couponStore',[CheckoutController::class,'couponStore'])->name('couponStore');
     route::get('/setSession',[CheckoutController::class,'setSession']);
-    Route::get('create-transaction', [PayPalController::class, 'createTransaction'])->name('createTransaction');
-    Route::get('process-transaction', [PayPalController::class, 'processTransaction'])->name('processTransaction');
-    Route::get('success-transaction', [PayPalControllerr::class, 'successTransaction'])->name('successTransaction');
-    Route::get('cancel-transaction', [PayPalController::class, 'cancelTransaction'])->name('cancelTransaction');
-    
+
     });
     
-    route::post("loginCustomer",[AuthCustomerController::class,'login'])->name('loginCustomer');

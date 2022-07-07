@@ -12,9 +12,8 @@ trait GetProductOrderItemTrait
                     $query->where('order_id',$request->order_id)
                     ->where('customer_id',$request->customer_id)
                     ->where('product_id',$request->product_id);
-        },'discount','inventory'])->select('products.id','products.price')->first();
-   
-
+        },'discount','inventory'])
+        ->select('products.id','products.price','products.tax','discount_id')->first();
     }
 
 }

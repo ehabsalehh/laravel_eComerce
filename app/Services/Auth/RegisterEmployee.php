@@ -5,7 +5,6 @@ namespace App\Services\Auth;
 use App\Http\Traits\handleFile\UploadEmployeeFileTrait;
 use App\Models\Employee;
 use App\services\ResponseMessage;
-use App\Services\HandleFiles\UploadEmployeeFile;
 
 class RegisterEmployee
 {

@@ -2,6 +2,10 @@
 
 namespace App\Http\Traits\handleFile;
 
+use App\Models\Customer;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+
 trait UpdateCategoryPhotoTrait
 {
     use ChangeCategoryLocalFileTrait

@@ -15,7 +15,6 @@ class Payment extends Model
         'status',
         'order_id',
         'customer_id',
-        'employee_id',
     ];
     public function customer(){
         return $this->belongsTo(Customer::class);

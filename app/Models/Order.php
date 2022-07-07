@@ -16,9 +16,9 @@ class Order extends Model
         'sub_total',
         'total_discount',
         'total',
+        'coupon',
         'customer_id',
         'shipping_id',
-        'employee_id',
     ];
     
     public function orderItems(){

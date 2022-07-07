@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Hash;
 class LoginEmployee
 {
     public  function Login($request){
-        $admin = Employee::where('email', $request->email)->first();
-            if (! $admin || ! Hash::check($request->password, $admin->password)) {
+        $employee = Employee::where('email', $request->email)->first();
+            if (! $employee || ! Hash::check($request->password, $employee->password)) {
                 return ;
             }
-        return $admin->createToken("myapp")->plainTextToken;  
+        return $employee->createToken("myapp")->plainTextToken;  
     }
 
 }

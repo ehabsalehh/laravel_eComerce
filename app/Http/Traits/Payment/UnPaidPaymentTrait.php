@@ -6,16 +6,12 @@ use Illuminate\Support\Facades\Auth;
 
 trait UnPaidPaymentTrait
 {
-    public function unPaidPayment($order)
+    public function unPaidPayment()
     {
         $payment = [];
         $payment['method']='cod';
         $payment['status']='Unpaid';
-        $payment['order_id']=$order->id;
-        $payment['employee_id']=$order->employee_id;
-        $payment['amount']=$order->total;
-        $payment['customer_id']=Auth::id();
-        Payment::create($payment);
+        return $payment;
     }
 
 }

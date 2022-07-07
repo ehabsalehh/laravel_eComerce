@@ -22,7 +22,7 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
     public function customer(){
-        return $this->hasOne(Customer::class);
+        return $this->belongsTo(Customer::class);
     }
     public function scopeHasProduct($query,$product_id){
         return $query->where('product_id',$product_id);

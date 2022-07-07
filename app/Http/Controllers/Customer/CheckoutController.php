@@ -2,32 +2,34 @@
 
 namespace App\Http\Controllers\Customer;
 use App\Models\Coupon;
+use App\Models\Shipping;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoredOrderRequest;
 use App\services\Order\placeOrderService;
-use App\Services\Order\ProccessTransactionService;
-
+use Helper;
 class CheckoutController extends Controller
 {
     
     private $placeOrder;
-    public function couponStore(Request $request){
-        $coupon=Coupon::code($request->code)->status('active')->first();
-       return  isset($coupon)?session()->put('couponPercent', $coupon->percent):"coupon invalid";
-        // session()->put('couponPercent', $coupon->percent);
+    private $shippings;
+    private $orderPrice;
+    public function view(){
+        $this->orderPrice = Helper::orderPrice();
+        $this->shippings= Shipping::orderByDesc('id')->get();
+        return view('Checkout')->with(['shippings'=>$this->shippings,'orderPrice'=>$this->orderPrice]);
+
     }
+    
 
     public function placeOrder(StoredOrderRequest $request,placeOrderService $placeOrder){
         $this->placeOrder = $placeOrder;
         return $this->placeOrder->placeOrder($request);
     }
-    public function coupon_Store(Request $request){
-        $coupon=Coupon::code($request->code)->status('active')->first();
-        if($coupon){
-            session()->put('couponPercent', $coupon->percent);
-        }
-        return to_route('createTransaction');
+    public function couponStore(Request $request){
+        $coupon=Coupon::code($request->code)->status('active')->firstOrFail();
+        session()->put('couponPercent', $coupon->percent);
+        return to_route('viewCheckOut');
     }
           
 }

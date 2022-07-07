@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Review extends Model
 {
-    use HasFactory;
-    protected $table = 'reviews';
+    use HasFactory,Notifiable;
+    // protected $table = 'reviews';
     protected $fillable = [
         'product_id',
         'customer_id',

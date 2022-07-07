@@ -3,21 +3,17 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Models\Order;
-use App\Models\Category;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\OrderResource;
 use App\Http\Requests\ChangePasswordRequest;
 use App\Services\Auth\ChangeCustomerPassword;
-use App\Http\Traits\Order\CancelOrderStausTrait;
 use App\Http\Requests\UpdateCustomerProfileRequest;
 
 class HomeController extends Controller
 {
-    use CancelOrderStausTrait;
     private $changePassword;
     public function ChangeCustomerPassword(ChangePasswordRequest $Request,ChangeCustomerPassword $changePassword){
         $this->changePassword = $changePassword;
@@ -47,8 +43,9 @@ class HomeController extends Controller
         return  Response()->json($messageTracks[$order->status]);
 
     }
-    public function customerOrderDelete(Order $order){
-        $this->authorize('delete', $order);
+    public function customerOrderDelete($orderId){
+        $order = Order::findOrFail($orderId);
+         $this->authorize('delete', $order);
         if($order->status =='new'){
             $order->delete();
         }

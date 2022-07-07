@@ -59,6 +59,8 @@ class Product extends Model
     }
     public function discount(){
         return $this->belongsTo(Discount::class);
+        // return $this->hasOne(Discount::class,'id','discount_id');
+
     }
 
     // local scope

@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Product;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductResource;
-use App\Http\Requests\storedProductRequest;
 use App\Services\product\StoreProduct;
+use App\Http\Resources\ProductResource;
 use App\Services\Product\UpdateProduct;
+use App\Http\Requests\storedProductRequest;
+use App\Http\Traits\handleFile\DeleteFileTrait;
 
 class ProductController extends Controller
 {
+    use DeleteFileTrait;
     private $store;
     private $update;
     /**

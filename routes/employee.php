@@ -9,15 +9,17 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\SupplierController;
-use App\Http\Controllers\Auth\AuthAdminController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiscountTController;
+use App\Http\Controllers\Customer\ReviewController;
 use App\Http\Controllers\Auth\AuthEmployeeController;
-use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Admin\ChangePasswordController;
+
+
+// 
 
 Route::post('/registerEmployee', [AuthEmployeeController::class, 'register']); 
 Route::post("/loginEmployee",[AuthEmployeeController::class,"login"]);
+
 Route::group(["middleware"=> ["auth:sanctum"]],function(){
 
  // categories
@@ -27,7 +29,6 @@ Route::group(["middleware"=> ["auth:sanctum"]],function(){
  route::get("/category/{category}",[CategoryController::class,'show']);
  route::post("/category/{category}",[CategoryController::class,'update']);
  route::delete("/category/{category}",[CategoryController::class,'destroy']);
- route::post("/Test",[CategoryController::class,'Test']);
 
 // // Customers
 // route::get('getAllCustomers',[CustomerController::class,'index']);
@@ -58,9 +59,9 @@ route::delete("/shipping/{shipping}",[ShippingController::class,'destroy']);
  route::post('update_order/{order}',[OrderController::class,'updateStatus']);
  route::post('Delete_order/{order}',[OrderController::class,'destroy']);
  route::post('/return_item',[OrderController::class,'return_item']);
- route::post('/decreaseQuantity',[OrderController::class,'decreaseQuantity']);
- route::get('/SubTotalPrice',[OrderController::class,'SubTotalPrice']);
 
+// 
+Route::post("/updateReview/{Review}",[ReviewController::class,'update']);
 
 
  
@@ -93,7 +94,8 @@ Route::group(['prefix'=>'employee'],function(){
 });
 
 
-//  Route::post("/logoutEmpolyee",[AuthEmployeeController::class,"logout"]);  
+ Route::post("/logoutEmpolyee",[AuthEmployeeController::class,"logout"]);  
+
 
 
 });

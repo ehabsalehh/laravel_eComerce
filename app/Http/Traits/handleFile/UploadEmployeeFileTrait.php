@@ -7,7 +7,8 @@ trait UploadEmployeeFileTrait
     public function uploadEmployeeFile($request)
     {
         $fileName = $request->file('photo')->getClientOriginalName(); 
-        $request->file('photo')->storeAs('attachments/Employees/'.$fileName,'upload_attachments');
+        // $request->file('photo')->store('public/files');
+        $request->file('photo')->storeAs('attachments/Employees',$fileName,'upload_attachments');
         return $fileName;
     }
 

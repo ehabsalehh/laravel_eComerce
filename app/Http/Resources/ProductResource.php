@@ -27,7 +27,7 @@ class ProductResource extends JsonResource
             'color' =>$this->color,
             'photo' =>$this->photo,
             'tax' =>$this->tax,
-            'discount'=>$this->discount?$this->discount->percent."%":null,
+            'discount'=>$this->whenLoaded('discount'),
             'status' =>$this->status,
             'parent_category' => $this->whenLoaded('category'),
             'sub_category' => $this->whenLoaded('sub_category'),

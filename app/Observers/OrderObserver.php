@@ -3,11 +3,12 @@
 namespace App\Observers;
 
 use App\Models\Order;
-use App\Http\Traits\Cart\SubTotalPriceTrait;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Traits\Payment\PaidPaymentTrait;
+
 use App\Http\Traits\Cart\GetCustomerCartTrait;
 use App\Http\Traits\Payment\UnPaidPaymentTrait;
-
 use App\Http\Traits\Cart\DestroyCustomerCartTrait;
 use App\Http\Traits\OrderItem\CreateOrderItemTrait;
 use App\Http\Traits\Product\DecreseInventoryQuantityTrait;
@@ -41,14 +42,15 @@ class OrderObserver
         $this->destroyCustomerCart();
 
         if(request()->payment_mode =='placeOrder'){
-             $this->unPaidPayment($order);
+            $payment= $this->unPaidPayment();
         }
         elseif(request()->payment_mode = 'paid with paypal'){
-            $this->paidPayment($order);
-        }  
-       
-       
-
+            $payment= $this->paidPayment();
+        } 
+        $payment['order_id']=$order->id;
+        $payment['amount']=$order->total;
+        $payment['customer_id']=Auth::id();
+        Payment::create($payment); 
     }
 
     /**

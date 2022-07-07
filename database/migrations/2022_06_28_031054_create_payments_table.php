@@ -20,10 +20,8 @@ return new class extends Migration
             $table->enum('status',['paid','unpaid'])->default('unpaid');
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
-            $table->unsignedBigInteger('employee_id')->nullable();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('SET NULL');            
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('SET NULL');            
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('SET NULL');           
             $table->timestamps();
         });
     }

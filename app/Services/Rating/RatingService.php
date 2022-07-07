@@ -9,7 +9,8 @@ class RatingService{
     verifiedPurchaseOrderTrait
     ;
     public function addRating($request){
-        if(count($this->verifiedPurchaseOrder($request->product_id))==0){return ;}
+        if(empty($this->verifiedPurchaseOrder($request->product_id))){return ;}
+        // if(count($this->verifiedPurchaseOrder($request->product_id))==0){return;}
         $this->CreateOrUpdateRating($request);
         return ResponseMessage::succesfulResponse();
     }

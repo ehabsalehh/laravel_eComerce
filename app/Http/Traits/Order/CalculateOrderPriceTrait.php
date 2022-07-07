@@ -11,7 +11,7 @@ use App\Http\Traits\Order\OrderHasShippingTrait;
 trait CalculateOrderPriceTrait
 {
     use
-    OrderHasShippingTrait,
+    OrderShippingTrait,
     SubTotalPriceTrait
     ;
     public function calculateOrderPrice()

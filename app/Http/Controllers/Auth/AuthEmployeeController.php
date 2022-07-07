@@ -7,7 +7,6 @@ use App\Services\Auth\LoginEmployee;
 use App\Services\Auth\RegisterEmployee;
 use App\Http\Requests\LoginEmployeeRequest;
 use App\Http\Requests\ReqisterEmployeeRequest;
-use App\Services\HandleFiles\UploadEmployeeFile;
 
 class AuthEmployeeController extends Controller
 {

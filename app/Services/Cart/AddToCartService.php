@@ -25,7 +25,8 @@ class AddToCartService {
     private $alreadyInCart; 
     private $totalOrderQuantity;
     public function addToCart($request){
-         $this->inventory = Inventory::where('product_id',$request->product_id)->select('quantity')->first();
+         $this->inventory = Inventory::where('product_id',$request->product_id)
+                                        ->select('quantity')->first();
         // check if there are proucts less than order quantity or product quantity less than  request of product_quantity
         if(!$this->inventory|| $this->quantityLessThanOne($request->quantity) 
                     ||$this->quantityLessThanOrder($this->inventory->quantity,$request->quantity)){

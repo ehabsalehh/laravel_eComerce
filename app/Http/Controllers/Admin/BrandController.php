@@ -72,6 +72,6 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
-        return $brand->delete($brand);
+        return $brand->delete();
     }
 }

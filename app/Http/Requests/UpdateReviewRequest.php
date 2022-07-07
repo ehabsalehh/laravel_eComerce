@@ -24,6 +24,8 @@ class UpdateReviewRequest extends FormRequest
     public function rules()
     {
         return [
+            'customer_id'=>['required',"exists:customers,id"],
+            'product_id'=>["required","exists:products,id"],
             'customer_review' => ['required','string']
         ];
     }

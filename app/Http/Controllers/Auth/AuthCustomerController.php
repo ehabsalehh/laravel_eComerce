@@ -24,13 +24,29 @@ class AuthCustomerController
     public function Login(LoginCustomerRequest $request){
         if (Auth::attempt($request->validated())) {
             $request->session()->regenerate();
-            return to_route('createTransaction');
+            return to_route('viewCheckOut');
 
         }
  
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
+        // return $this->login->Login($request);
+    }
+    public function loginApi(LoginCustomerRequest $request){
+        
+        if (Auth::attempt($request->validated())) {
+            $user = Auth::user(); 
+            return $user->createToken('MyApp')->plainTextToken;  
+        } 
+    
+        
+        
+        
+        // if (Auth::attempt($request->validated())) {
+        //     $request->session()->regenerate();
+        // }
+        // return $user->createToken($request->device_name)->plainTextToken;
         // return $this->login->Login($request);
     }
     public function logout() {

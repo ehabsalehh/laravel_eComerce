@@ -42,29 +42,32 @@ class FrontendController extends Controller
             $viewproduct = Product::Slug($product_slug)->ProductWith()->get();
             return  ProductResource::collection($viewproduct);
     }
+    private function explodeGetRequest($request):array
+    {
+        return explode(',',$request);
+    }
     public function productGrids(){
-        $products=Product::query();
-        if(isset($_GET['category'])){
-            $slug=explode(',',$_GET['category']);
-            $categoryIds= Category::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
-            $products->whereIn('category_id',$categoryIds);
-        }
-        if(isset($_GET['subCategory'])){
-            $slug=explode(',',$_GET['subCategory']);
+        $request = $_GET['category']??$_GET['subCategory']??$_GET['brand']??$_GET['supplier'];
+        $slug = $this->explodeGetRequest($request);
+        $products=Product::query()->when(isset($_GET['category']),function($query)use($slug){
+                $categoryIds= Category::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
+                return $query->whereIn('category_id',$categoryIds)->where('status','active')->productWith();
+        })->paginate(10);
+
+        $products=Product::query()->when(isset($_GET['subCategory']),function($query)use($slug){
             $childcategoryIds= Category::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
-            $products->whereIn('child_category_id',$childcategoryIds);
-        }
-        if(isset($_GET['brand'])){
-            $slugs=explode(',',$_GET['brand']);
-            $brandIds=Brand::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
-            $products->whereIn('brand_id',$brandIds);
-        }
-        if(isset($_GET['supplier'])){
-            $name=explode(',',$_GET['supplier']);
-            $SupplierIds= Supplier::select('id')->whereIn('name',$name)->pluck('id')->toArray();
-            $products->whereIn('supplier_id',$SupplierIds);
-        }
-        $products=$products->where('status','active')->productWith()->paginate(10);
+            return $query->whereIn('child_category_id',$childcategoryIds)->where('status','active')->productWith();
+        })->paginate(10);
+
+        $products=Product::query()->when(isset($_GET['brand']),function($query)use($slug){
+            $brandIds= Brand::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
+            return $query->whereIn('brand_id',$brandIds)->where('status','active')->productWith();
+        })->paginate(10);
+
+        $products=Product::query()->when(isset($_GET['supplier']),function($query)use($slug){
+            $SupplierIds= Supplier::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
+            return $query->whereIn('supplier_id',$SupplierIds)->where('status','active')->productWith();
+        })->paginate(10);
         return  ProductResource::collection($products);
     }
 
@@ -83,13 +86,11 @@ class FrontendController extends Controller
     }
     
     public function productByRangePrice(){
-        if(isset($_GET['price'])){
-            $price=explode('-',$_GET['price']);
-             $product= Product::where('status','active')->whereBetween('price',$price)
-             ->productWith()
-             ->paginate(10);
-             return  ProductResource::collection($product);        
-        }
+        $product= Product::query()->when(isset($_GET['price']),function($query){
+            $price = $this->explodeGetRequest($_GET['price']);
+            return $query->where('status','active')->whereBetween('price',$price)->productWith();
+        })->paginate(10);
+        return  ProductResource::collection($product); ;
     }  
     public function bestSeller($category){
         return DB::table('products')
@@ -109,14 +110,17 @@ class FrontendController extends Controller
                  ->orWhere('price','like','%'.$request->search.'%')
                  ->orWhere('size','like','%'.$request->search.'%')
                  ->OrderByDesc('id')
-                 ->with(['category','sub_category','review','discount','rating'])
+                 ->productWith()
                  ->paginate(10);
          return ProductResource::collection($productSearch);
      }
     public function newArrivals($days){
-        return Product::where('status','active')
+            $product= Product::where('status','active')
                 ->where( 'created_at', '<', Carbon::now()->subDays($days))
-                ->orderByDesc('id')->limit(10)->get();
+                ->orderByDesc('id')->limit(10)
+                ->get();
+        return ProductResource::collection($product);
+
     }
     public function getAllcategory(){
         return  Category::with('parent_info')->paginate(10);

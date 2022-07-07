@@ -39,8 +39,6 @@ class RegisterCustomerRequest extends FormRequest
             'shipper_city' => ['string','required'],
             'billing_address' => ['string','required'],
             'billing_city' => ['string','required'],
-
-
         ];
     }
 }

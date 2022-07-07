@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Cart;
 use App\Models\Coupon;
-use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\couponResource;
 use App\Http\Requests\StoredCouponRequest;
 

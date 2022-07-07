@@ -10,18 +10,12 @@ use App\Http\Requests\ReturnItemRequest;
 use App\Http\Resources\OrderItemResource;
 use App\Services\Order\ReturnItemService;
 use App\Http\Requests\UpdatedOrderRequest;
-use App\Http\Traits\Order\ReturnItemTrait;
-use App\Http\Traits\Cart\SubTotalPriceTrait;
 use App\Http\Traits\Order\UpdateOrderStausTrait;
 
-use function PHPUnit\Framework\isNull;
 
 class OrderController extends Controller
 {
-    use UpdateOrderStausTrait,
-        ReturnItemTrait,
-        SubTotalPriceTrait
-    ;
+    use UpdateOrderStausTrait;
     
         private $returnItem;
         private $decreaseQuantity;
@@ -84,16 +78,7 @@ class OrderController extends Controller
         $this->returnItem = $returnItem;
        return  $this->returnItem->returnItem($request);  
     }
-    // public function SubTotalPrice(){
-    //     $calculateTotal = $this->subTotal();
-    //     $total_discount =$calculateTotal->total_disc;
-    //     $subTotal =$calculateTotal->sub_total;
-    //     $total = $subTotal - $total_discount;
-    //     $couponPercent = session('couponPercent');
-    //     return $couponDiscountValue= isset($couponPercent)?session()->get('couponPercent')/100*$subTotal:0;   
-    //    return $calculateTotal;
-    // } 
-    
+  
     
 
     

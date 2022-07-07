@@ -14,7 +14,7 @@ class LoginCustomer
             if (! $Customer || ! Hash::check($request->password, $Customer->password)) {
                 return 'not found';
             }
-            return to_route('createTransaction');
+            return view('checkOut');
         // return $Customer->createToken("myapp")->plainTextToken;  
     }
 

@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Coupon;
 use App\Models\Category;
-use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Services\Category\StoreCategory;
-
-
 use App\Services\Category\UpdateCategory;
 use App\Http\Requests\storedCategoryRequest;
 use App\Http\Traits\Product\GetInventoryTrait;
+use App\Http\Traits\handleFile\DeleteFileTrait;
 
 class CategoryController extends Controller
 {
     private $store;
     private $updateCategory;
     use 
-        GetInventoryTrait
+        GetInventoryTrait,
+        DeleteFileTrait
 
     ;
     /**
@@ -28,16 +26,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected function decreseInventoryQuantity($item){
-        $inventory = $this->getInventory($item->product_id);
-        $inventory->quantity -=  $item->quantity; 
-        $inventory->save();
-    }
-    public function Test(Request $request){
-        $coupon=Coupon::where('code',$request->code)->first();
-        return $coupon->percent;
-     
-    }
+    // protected function decreseInventoryQuantity($item){
+    //     $inventory = $this->getInventory($item->product_id);
+    //     $inventory->quantity -=  $item->quantity; 
+    //     $inventory->save();
+    // }
     public function index()
     {
         return  CategoryResource::collection(Category::get());

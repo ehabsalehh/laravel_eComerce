@@ -1,14 +1,17 @@
 <?php
 namespace App\services\Order;
 
+use App\Models\Admin;
 use App\Models\Payment;
 use App\services\ResponseMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use function PHPUnit\Framework\isNull;
-use App\Http\Traits\Order\CreateOrderTrait;
-use App\Http\Traits\Payment\PaidPaymentTrait;
+use App\Notifications\OffersNotification;
 
+use App\Http\Traits\Order\CreateOrderTrait;
+use Illuminate\Support\Facades\Notification;
+use App\Http\Traits\Payment\PaidPaymentTrait;
 use App\Http\Traits\Cart\GetCustomerCartTrait;
 use App\Http\Traits\Payment\UnPaidPaymentTrait;
 use App\Http\Traits\Cart\DestroyCustomerCartTrait;
@@ -22,12 +25,19 @@ class placeOrderService{
 
         ;
     public function placeOrder($request){
-         $request->all();
         try {
             DB::beginTransaction();
-            $this->CreateOrder($request);           
+            $order = $this->CreateOrder($request);
+            $admin=Admin::get();
+            $details=[
+                'title'=>'New order created',
+            ];
+            // $admin->notify(new OffersNotification($details));
+            Notification::send($admin, new OffersNotification($details));
+            session()->forget('couponPercent');           
             DB::commit();
-            return to_route('createTransaction');
+            request()->session()->flash('success','order successfully applied');
+            return to_route('viewCheckOut');
         } catch (\Exception $e) {
             DB::rollback();
             return $e->getMessage();

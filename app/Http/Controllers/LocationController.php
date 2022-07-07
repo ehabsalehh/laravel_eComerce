@@ -53,7 +53,7 @@ class LocationController extends Controller
      */
     public function update(storeLocationRequest $request,Location $location)
     {
-        $location->update(['name',$request->name]);
+        $location->update($request->validated());
         return ResponseMessage::succesfulResponse();
     }
 

@@ -20,12 +20,11 @@ return new class extends Migration
             $table->decimal('sub_total')->nullable();
             $table->decimal('total_discount')->nullable();
             $table->decimal('total');
+            $table->decimal('coupon')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->unsignedBigInteger('shipping_id')->nullable();
-            $table->unsignedBigInteger('employee_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('SET NULL');            
             $table->foreign('shipping_id')->references('id')->on('shippings')->onDelete('SET NULL');
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('SET NULL');
             $table->timestamps();
         });
     }

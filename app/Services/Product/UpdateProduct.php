@@ -22,12 +22,7 @@ class UpdateProduct
             $this->product['photo'] = $this->updateProductPhoto($request,$product->photo);
             $product->update($this->product);
             $this->inventory = Inventory::where('product_id',$product->id)->first();
-            $this->inventory->update($request->only(['quantity','location_id']));
-            // Inventory::update([
-            //     'quantity'=>$request->quantity,
-            //     'product_id'=>$productModel->id,
-            //     'location_id'=>$request->location
-            // ]);    
+            $this->inventory->update($request->only(['quantity','location_id'])); 
             return ResponseMessage::succesfulResponse();   
         } catch (\Throwable $th) {
             throw $th;

@@ -5,30 +5,38 @@ use App\Models\Review;
 use App\services\ResponseMessage;
 use App\Services\Review\AddReview;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Services\Review\UpdateReview;
 use App\Http\Requests\StoredReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
-use App\Http\Traits\Review\StoreProductReviewTrait;
-use App\Http\Traits\Order\verifiedPurchaseOrderTrait;
+use App\Http\Resources\ReviewResource;
 
 class ReviewController extends Controller
 {
     private $addReview;
     private $updateReview;
-
+// public function show(Review $Review){
+//     return new ReviewResource($Review);
+// }
+public function show($id){
+    $Review= Review::findOrFail($id);
+    return new ReviewResource($Review);
+} 
     public function addReview(StoredReviewRequest $request,AddReview $addReview){
         $this->addReview = $addReview;
         return $this->addReview->addReview($request);
         // return $this->storeProductReview($request);
     }
-    public function Update(UpdateReviewRequest $request,Review $review,UpdateReview $updateReview){
-        $this->updateReview = $updateReview;
-        return $this->updateReview->update($request,$review);
-    }
-    public function destroy(Review $review){
-        $this->authorize('delete', $review);
-         $review->delete($review);
-         return ResponseMessage::succesfulResponse();
+    public function update(UpdateReviewRequest $request, Review $Review){
+        $this->authorize('update', $Review);
+        $Review->update($request->validated());
+        return ResponseMessage::succesfulResponse();
+    } 
+   
+    public function destroy($id){        
+       $Review= Review::findOrFail($id);
+       if (request()->user()->cannot('delete', $Review)) {
+        abort(403);
+        }
+        $Review->delete();
+        return ResponseMessage::succesfulResponse();
     }
 }
