@@ -2,15 +2,25 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterCustomerRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Services\Admin\Auth\Register;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\ReqisterAdminRequest;
+use App\Http\Requests\ReqisterEmployeeRequest;
+use App\Services\Customer\Auth\Register as CustomerAuthRegister;
+use App\Services\Employee\Auth\Register as AuthRegister;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
+    private $createAdmin;
+    private $createEmployee;
+    private $createCustomer;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -38,22 +48,10 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:admin')->except('logout');
+        $this->middleware('guest:employee')->except('logout');
+        $this->middleware('guest:customer')->except('logout');
     }
 
     /**
@@ -62,12 +60,19 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    public function createAdmin(ReqisterAdminRequest $request, Register $register)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $this->createAdmin =$register;
+        return $this->createAdmin->register($request);
+    }
+    public function createEmployee(ReqisterEmployeeRequest $request, AuthRegister $register)
+    {
+        $this->createEmployee =$register;
+        return $this->createEmployee->register($request);
+    }
+    public function createCustomer(RegisterCustomerRequest $request, CustomerAuthRegister $register)
+    {
+        $this->createCustomer =$register;
+        return $this->createCustomer->register($request);
     }
 }

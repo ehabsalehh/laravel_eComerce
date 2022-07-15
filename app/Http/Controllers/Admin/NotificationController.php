@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin;
-use App\Models\Notification;
+use App\Models\Admin\Admin;use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +13,7 @@ class NotificationController extends Controller
     {
         return  $notifications = auth()->user()->unreadNotifications;
     }
-    public function markNotification(Request $request)
+    public function show(Request $request)
     {   
         auth()->user()
             ->unreadNotifications

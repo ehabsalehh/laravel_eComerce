@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Shipping;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Employee\Order\Shipping;
 
 class Helper{
     public static function subTotal(){

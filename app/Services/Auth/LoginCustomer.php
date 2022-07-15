@@ -2,7 +2,7 @@
 
 namespace App\Services\Auth;
 
-use App\Models\Customer;
+use App\Models\Customer\Customer;
 use App\services\ResponseMessage;
 use Illuminate\Support\Facades\Hash;
 

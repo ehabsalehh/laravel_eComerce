@@ -10,7 +10,7 @@ class CahngeEmoloyeePassword
 {
     public function changePassword($request){
         Employee::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-        return ResponseMessage::succesfulResponse();
+        return ResponseMessage::successResponse();
     }
 
 }

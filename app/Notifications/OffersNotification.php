@@ -13,8 +13,6 @@ class OffersNotification extends Notification
 {
     use Queueable;
     public $offerData;
-    
-
     /**
      * Create a new notification instance.
      *
@@ -35,21 +33,6 @@ class OffersNotification extends Notification
     {
         return ['database','broadcast'];
     }
-
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    // public function toMail($notifiable)
-    // {
-    //     return (new MailMessage)
-    //                 ->line('The introduction to the notification.')
-    //                 ->action('Notification Action', url('/'))
-    //                 ->line('Thank you for using our application!');
-    // }
-
     /**
      * Get the array representation of the notification.
      *
@@ -60,8 +43,6 @@ class OffersNotification extends Notification
     {
         return [
             'title'=>$this->offerData['title'],
-            // 'actionURL'=>$this->offerData['actionURL'],
-            // 'fas'=>$this->offerData['fas']
         ];
     }
     /**

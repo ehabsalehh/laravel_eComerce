@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthCustomerController;
 use App\Http\Controllers\Customer\CheckoutController;
-use App\Models\Customer;
+use App\Models\Customer\Customer;
 
 /*
 |--------------------------------------------------------------------------

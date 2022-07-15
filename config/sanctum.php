@@ -34,7 +34,10 @@ return [
     */
 
     'guard' => ['web'],
-    'guard' => ['api'],
+    'guard' => ['admin'],
+    'guard' => ['employee'],
+    'guard' => ['customer'],
+
 
 
     /*
