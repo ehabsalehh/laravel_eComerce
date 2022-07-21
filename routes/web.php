@@ -1,10 +1,10 @@
 <?php
 
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthCustomerController;
-use App\Http\Controllers\Customer\CheckoutController;
-use App\Models\Customer\Customer;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Customer\Checkout\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,25 +16,15 @@ use App\Models\Customer\Customer;
 | contains the "web" middleware group. Now create something great!
 |
 */
-// Auth::routes();
+Auth::routes();
 
 Route::get('/', function () {
     return view('auth.login');
 });
-// Route::get('/', function () {
-//     // auth()->login(Customer::first());
-//     return view('welcome');
-// });
-
-Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-route::post("loginCustomer",[AuthCustomerController::class,'login'])->name('loginCustomer');
+route::post("login-customer",[LoginController::class,'customerLogin'])->name('login-customer');
 Route::group(['middleware' => ['auth']], function() {
     Route::get('viewCheckOut',[CheckoutController::class,'view'])->name('viewCheckOut');
     Route::post('/placeOrder',[CheckoutController::class,'placeOrder'])->name('placeOrder');
     Route::post('couponStore',[CheckoutController::class,'couponStore'])->name('couponStore');
-    route::get('/setSession',[CheckoutController::class,'setSession']);
-
     });
     

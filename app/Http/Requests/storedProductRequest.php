@@ -6,16 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class storedProductRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
-
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,7 +19,6 @@ class storedProductRequest extends FormRequest
             'small_description'=>["string","nullable"],
             'description'=>["string","nullable"],
             'price'=>["numeric","required"],
-            'photo'=>["image","required"],
             'color'=>["string"],
             'size'=>["string"],
             'tax'=>["numeric","required"],
@@ -40,6 +30,7 @@ class storedProductRequest extends FormRequest
             'brand_id'=>["nullable","exists:brands,id"],
             'discount_id'=>['nullable',"exists:discounts,id"],
             'location_id'=>['required',"exists:locations,id"],
+            'images'=>["image","required"],
 
 
         ];

@@ -6,17 +6,18 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "beyondcode/laravel-websockets": "^1.13",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "pusher/pusher-php-server": "^7.0",
+        "spatie/laravel-medialibrary": "10.0.7",
         "srmklive/paypal": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
+        "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
@@ -34,10 +35,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        },
-        "files":[
-            "app/Http/Helpers.php"
-        ]
+        }
     },
     "scripts": {
         "post-autoload-dump": [
@@ -62,7 +60,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

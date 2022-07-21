@@ -1,21 +1,11 @@
 <?php
-
 namespace App\Services\Order;
-
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Customer\Checkout\Order;
 use App\Models\Employee\Product\Product;
 use App\Models\Customer\Checkout\Payment;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Traits\Order\DecreaseOrderPriceTrait;
-use App\Http\Traits\OrderItem\GetProductOrderItemTrait;
-use App\Http\Traits\Order\DecreaseOrderPriceHasDiscountTrait;
-use App\Http\Traits\OrderItem\DecreaseOrderItemQuantityTrait;
-
 class ReturnItemService
 {
     public function returnItem( Request $request){
@@ -28,7 +18,7 @@ class ReturnItemService
             $getProductOrderItem =$this->getProductOrderItem($validated);
             $orderItems= $getProductOrderItem->orderItems->first();
             if(empty($orderItems)){return ;}
-            if($orderItems->created_at <Carbon::now()->subDays(15)){return;}
+            if($orderItems->created_at < now()->subDays(15)){return;}
             $inventory = $getProductOrderItem->inventory->first();
             $this->DecreaseOrderItemQuantity($orderItems,$inventory);
             $order = Order::where('id',$orderItems->order_id)->first();
@@ -47,9 +37,9 @@ class ReturnItemService
         return Product::where('id',$request->product_id)
             ->with(['orderItems'=>function($query) use($request){
                     $query->where('order_id',$request->order_id)
-                    ->where('customer_id',Auth::id())
+                    ->where('customer_id',auth()->id())
                     ->where('product_id',$request->product_id);
-        },'discount','inventory'])
+        },'discount','inventories'])
         ->select('products.id','products.price','products.tax','discount_id')->first();
     }
     private function DecreaseOrderItemQuantity($orderItems,$inventory){

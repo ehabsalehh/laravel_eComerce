@@ -1,18 +1,17 @@
 <?php
 namespace App\Http\Controllers\Employee\Order;
-use App\Models\Customer\Checkout\Order;use App\Models\OrderItem;
+use Illuminate\Http\Request;
+use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Models\Customer\Checkout\Order;
 use App\Http\Resources\OrderItemResource;
 use App\Services\Order\ReturnItemService;
+use App\Models\Customer\Checkout\OrderItem;
 use App\Services\Employee\Order\UpdateStatus;
-use App\services\ResponseMessage;
-use Illuminate\Http\Request;
 class OrderController extends Controller
 {    
-        private $returnItem;
-        private $updateStatus;
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -44,8 +43,8 @@ class OrderController extends Controller
      */
     public function update(Request $request,Order $order,UpdateStatus $update)
     {
-        $this->updateStatus = $update;
-        return $this->updateStatus->updateStatus($request,$order);
+        $updateStatus = $update;
+        return $updateStatus->updateStatus($request,$order);
     }
    
 
@@ -63,17 +62,21 @@ class OrderController extends Controller
     }
     public function getOrderItems($orderId){
         return OrderItemResource::collection(
-                    OrderItem::getOrderItems($orderId)->with('product')->get());
+                    OrderItem::getOrderItems($orderId)
+                    ->with('product')
+                    ->get());
     }
     public function orderStatus()
     {
         return  OrderResource::collection(
-                        Order::getOrderByStatus($_GET['status'])->with('orderItems.product')->get());
+                        Order::getOrderByStatus($_GET['status'])
+                        ->with('orderItems.product')
+                        ->get());
     }
     public function returnItem(Request $request,ReturnItemService $returnItem)
     {
-        $this->returnItem = $returnItem;
-       return  $this->returnItem->returnItem($request);  
+        $returnItem = $returnItem;
+       return  $returnItem->returnItem($request);  
     }
   
     

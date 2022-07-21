@@ -1,20 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\Employee\Product;
-
-use App\Models\Employee\Product\Product;use App\services\ResponseMessage;
+use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
-use App\Services\product\StoreProduct;
 use App\Http\Resources\ProductResource;
-use App\Services\Product\UpdateProduct;
+use App\Models\Employee\Product\Product;
 use App\Http\Requests\storedProductRequest;
-use App\Http\Traits\handleFile\DeleteFileTrait;
+use App\Services\Employee\Product\StoreProduct;
+use App\Services\Employee\Product\UpdateProduct;
 
 class ProductController extends Controller
 {
     private $store;
     private $update;
-    use DeleteFileTrait;
  
     /**
      * Display a listing of the resource.
@@ -70,7 +68,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $this->deleteFile($product->photo,'products');
+        $product->clearMediaCollection('images');
         $product->delete();
         return ResponseMessage::successResponse();
     }

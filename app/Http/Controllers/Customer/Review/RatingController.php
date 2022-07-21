@@ -13,7 +13,7 @@ class RatingController extends Controller
 {
     private $store;
     public function index(){
-        return RatingResource::collection(Rating::query()->customer()->get());
+        return RatingResource::collection(Rating::customer()->with('Customer')->get());
     }
     public function show(Rating $rating){
         return new RatingResource($rating);

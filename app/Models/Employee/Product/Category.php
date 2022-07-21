@@ -1,20 +1,23 @@
 <?php
 namespace App\Models\Employee\Product;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Employee\Product\Product;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Category extends Model
+class Category extends Model implements HasMedia
 {
     use HasFactory,
-    SoftDeletes
+    SoftDeletes,
+    InteractsWithMedia
     ;
     protected $table="categories";
     protected $fillable = [
         'name',
         'slug',
         'description',
-        'photo',
         'status',
         'is_parent',
         'parent_id',

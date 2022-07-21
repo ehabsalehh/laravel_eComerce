@@ -1,13 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\Employee\Order;
-
-use App\Models\Coupon;
+use App\Models\Employee\Order\Coupon;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\couponResource;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Requests\StoredCouponRequest;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
@@ -28,7 +24,7 @@ class CouponController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($request)
+    public function store(Request $request)
     {
         $validated= $request->validate($this->rules());
         coupon::create($validated);

@@ -15,14 +15,13 @@ class ReqisterAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' =>['string','required','unique:Employees,email'],
+            'email' =>['string','required','unique:admins,email'],
             'password' => ['required','confirmed',Password::min(8)->mixedCase()],
             'first_name' => ['string','required'],
             'last_name' => ['string','required'],
             'Birth_date' => ['date','required'],
-            'photo' => ['image','required'],
+            'avatar' => ['image','required'],
             'note' => ['string','required'],
-
         ];
     }
 }

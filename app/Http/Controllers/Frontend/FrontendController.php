@@ -1,8 +1,6 @@
 <?php
 namespace App\Http\Controllers\Frontend;
-use Illuminate\Http\Request;
 use App\Models\Admin\Setting;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Employee\Product\Brand;
@@ -31,10 +29,16 @@ class FrontendController extends Controller
     public function getAllCategory(){
         return  Category::with('parent_info')->paginate(10);
     }
-    public function activeProductByCategory(ActiveProductByCategory $activeProduct){
-        $this->activeProductByCategory = $activeProduct;
-        return ProductResource::collection(
-        $this->activeProductByCategory->getActiveProduct());   
+    public function activeProductByCategory(){
+        $get = $_GET['category_id']??$_GET['child_category_id'];
+        $product =  Product::byCategory($get)
+            ->orWhere(function ($query)use($get) {
+                $query->byChildCategory($get);
+            })
+            ->active()
+            ->ProductWith()
+            ->get();
+        return ProductResource::collection($product);   
     }    
     public function viewProduct(){
         return Product::Slug($_GET['slug'])->ProductWith()->get();
@@ -67,7 +71,7 @@ class FrontendController extends Controller
     }
     public function newArrivals(){
         $product= Product::active()
-            ->where( 'created_at', '<', Carbon::now()->subDays($_GET['days']))
+            ->where( 'created_at', '<', now()->subDays($_GET['days']))
             ->orderByDesc('id')->limit(10)
             ->get();
         return ProductResource::collection($product);
@@ -87,10 +91,10 @@ class FrontendController extends Controller
 
     public function productGrids(){       
         $productGrid = function($request,$model,$column){
-            if(empty($_GET[$request])){return;}
+            if(empty($_GET[$request])){return response()->json(['error'=>'empty Request']);}
             $slug=explode(',',$_GET[$request]);
             $model_ids=$model::select('id')->whereIn('slug',$slug)->pluck('id')->toArray();
-            return Product::query()->whereIn($column,$model_ids)->active()->productWith()->paginate(10);
+            return Product::whereIn($column,$model_ids)->active()->productWith()->paginate(10);
         };
         $category = $productGrid('category',Category::class,'category_id');
         $childCategory = $productGrid('childCategory',Category::class,'child_category_id');
@@ -116,7 +120,7 @@ class FrontendController extends Controller
         return  ProductResource::collection($product);        
     }
     public function productByRangePrice(){
-        $product= Product::query()->when(isset($_GET['range']),function($query){
+        $product= Product::when(isset($_GET['range']),function($query){
             $price = explode('-',$_GET['range']);
             return $query->active()->whereBetween('price',$price)->productWith();
         })->paginate(10);

@@ -9,20 +9,18 @@ use App\Http\Requests\LoginCustomerRequest;
 
 class Login
 {
-    public function login( Request $request){
-        $validated= $request->validate($this->rules());
+    public function loginApi( Request $request){
+        $validated= $request->validated();
         if (Auth::attempt($validated)) {
             $user = Auth::user(); 
             return $user->createToken('MyApp')->plainTextToken;  
-        } 
+        }
+    }
+        public function login( Request $request){
+            $validated= $request->validated();
+            if (Auth::attempt($validated)) { 
+                return redirect()->intended('viewCheckOut'); 
+            } 
         
     }
-    public function rules():array
-    {
-        return [
-            'email' => ['required','email'],
-            'password' => ['required',Password::min(8)->mixedCase()]
-        ];
-    } 
-
 }

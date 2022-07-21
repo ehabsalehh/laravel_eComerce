@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Employee\Product;
 
-use App\Models\Employee\Product\Category;use App\services\ResponseMessage;
+use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
-use App\Services\Category\StoreCategory;
-use App\Services\Category\UpdateCategory;
+use App\Models\Employee\Product\Category;
 use App\Http\Requests\storedCategoryRequest;
-use App\Http\Traits\handleFile\DeleteFileTrait;
+use App\Services\Employee\Product\Category\StoreCategory;
+use App\Services\Employee\Product\Category\UpdateCategory;
 
 class CategoryController extends Controller
 {
     private $store;
     private $updateCategory;
-    use DeleteFileTrait;
     /**
      * Display a listing of the resource.
      *
@@ -70,7 +69,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $this->deleteFile($category->photo,'categories');   
+        $category->clearMediaCollection('images');
         $category->delete();
         return ResponseMessage::successResponse();
     }

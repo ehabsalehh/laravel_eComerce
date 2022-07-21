@@ -1,7 +1,9 @@
 <?php
 namespace App\Models\Customer\Checkout;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Employee\Product\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cart extends Model
@@ -15,7 +17,7 @@ class Cart extends Model
     ];
     
     public function CartCount(){
-        $cart= Cart::CustomerId(Auth::id())->count();
+        $cart= Cart::CustomerId(auth()->id())->count();
         return response()->json(['countCart'=>$cart]) ;
      }
      // Get the  Customer that owns the cart .

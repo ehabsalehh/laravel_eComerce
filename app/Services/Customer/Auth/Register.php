@@ -2,7 +2,7 @@
 
 namespace App\Services\Customer\Auth;
 
-use App\Models\Customer\Customer;
+use App\Models\Customer;
 use App\services\ResponseMessage;
 
 class Register

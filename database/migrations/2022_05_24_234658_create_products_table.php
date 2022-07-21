@@ -22,7 +22,6 @@ return new class extends Migration
             $table->float("price");
             $table->string('size')->default('M')->nullable();
             $table->string('color')->nullable();
-            $table->string('photo');
             $table->integer('tax');
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->unsignedBigInteger('category_id')->nullable();

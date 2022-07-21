@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin\Admin;use App\Models\Notification;
+use App\Models\Admin;
 use Illuminate\Http\Request;
+use App\Models\Admin\Notification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,7 +27,7 @@ class NotificationController extends Controller
         $notification->delete();
     }
     public function deleteAll(){
-        $admin = Admin::where('id',Auth::id())->first();
+        $admin = Admin::where('id',auth()->id())->first();
         $admin->notifications()->delete();
     }
 }

@@ -9,7 +9,7 @@ class VerifiedPurchaseOrder
 {
     public  function verifiedPurchaseOrder($product_id){
         return  DB::table('order_items')->where('product_id',$product_id)
-                ->where('customer_id',Auth::id())->get();
+                ->where('customer_id',auth()->id())->get();
     }
 
 }

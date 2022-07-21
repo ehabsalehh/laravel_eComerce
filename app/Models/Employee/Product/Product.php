@@ -1,6 +1,7 @@
 <?php
 namespace App\Models\Employee\Product;
-use App\Models\Customer\Customer;
+use App\Models\Customer;
+use Spatie\MediaLibrary\HasMedia;
 use App\Models\Customer\Review\Rating;
 use App\Models\Customer\Review\Review;
 use App\Models\Employee\Product\Brand;
@@ -9,15 +10,16 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Employee\Product\Category;
 use App\Models\Employee\Product\Inventory;
 use App\Models\Customer\Checkout\OrderItem;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Models\Employee\Product\ProductImage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class Product extends Model
+class Product extends Model implements HasMedia
 {
     use HasFactory,
-    SoftDeletes
+    SoftDeletes,
+    InteractsWithMedia
     ;
-    protected $table = 'products';
     protected $fillable = [
         'name',
         'slug',
@@ -26,7 +28,6 @@ class Product extends Model
         'price',
         'size',
         'color',
-        'photo',
         'status',        
         'tax',
         'category_id',
@@ -39,14 +40,16 @@ class Product extends Model
     public function orderItems(){
         return $this->hasMany(OrderItem::class);
     }
-    // Get the  category that owns the product .
+    public function productImages(){
+        return $this->hasMany(ProductImage::class);
+    }
     public function category(){
         return $this->belongsTo(category::class);
     }
     public function sub_category(){
         return $this->hasOne(category::class,'id','child_category_id');
     }
-    public function inventory(){
+    public function inventories(){
         return $this->hasMany(Inventory::class);
     }
     public function rating(){

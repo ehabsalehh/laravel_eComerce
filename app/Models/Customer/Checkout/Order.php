@@ -1,5 +1,8 @@
 <?php
 namespace App\Models\Customer\Checkout;
+use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\Employee\Order\Shipping;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -28,7 +31,7 @@ class Order extends Model
         return $this->belongsTo(Shipping::class);
     }
     public function employee(){
-        return $this->belongsTo(employee::class);
+        return $this->belongsTo(Employee::class);
     }
     public function scopeCustomerId($query,$id) {
         return $query->where('customer_id',$id);

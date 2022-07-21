@@ -19,7 +19,7 @@ class StoreRating{
             'product_id'=>["required","exists:products,id"],
             'stars_rated' =>['required','numeric'],
         ]);
-        $customerId = Auth::id();
+        $customerId = auth()->id();
         $productId = $request->product_id; 
         $starsRated = $request->stars_rated;
         Rating::updateOrCreate(

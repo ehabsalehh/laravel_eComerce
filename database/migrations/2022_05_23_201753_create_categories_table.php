@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string("name");
             $table->string("slug")->unique();
             $table->longText("description");
-            $table->string('photo')->nullable();
             $table->enum('status',['active','inactive'])->default('inactive');
             $table->boolean('is_parent')->default(1);
             $table->unsignedBigInteger('parent_id')->nullable();

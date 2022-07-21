@@ -1,7 +1,9 @@
 <?php
 namespace App\Models\Customer\Checkout;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Customer;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Payment extends Model
 {
@@ -18,6 +20,6 @@ class Payment extends Model
         return $this->belongsTo(Customer::class);
     }
     public function employee(){
-        return $this->belongsTo(employee::class);
+        return $this->belongsTo(Employee::class);
     }
 }

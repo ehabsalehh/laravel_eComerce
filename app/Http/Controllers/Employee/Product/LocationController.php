@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Employee\Product;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\storeLocationRequest;
-use App\Http\Resources\LocationResource;
-use App\Models\Location;
-use App\services\ResponseMessage;
 use Illuminate\Http\Request;
-
+use App\services\ResponseMessage;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\LocationResource;
+use App\Models\Employee\Product\Location;
 class LocationController extends Controller
 {
     /**

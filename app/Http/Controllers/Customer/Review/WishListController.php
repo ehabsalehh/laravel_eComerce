@@ -11,7 +11,7 @@ class WishListController extends Controller
 {
     private $store;
     public function index(){
-        $wishList = WishList::query()->Customer()->with('product')->get();
+        $wishList = WishList::Customer()->with('product')->get();
         return  WishListResource::collection($wishList);
     }
     public function show(WishList $wishList){
@@ -20,9 +20,6 @@ class WishListController extends Controller
     public function store(Request $request,StoreWishlist $store){
         $this->store = $store;
        return $this->store->store($request);
-    }
-    public function count(){
-        return  WishList::getCustomerWishList()->count();
     }    
     public function destroy(WishList $wishList){
         $wishList->delete();

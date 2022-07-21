@@ -12,7 +12,7 @@ class ReviewController extends Controller
 {
     private $store;
     public function index(){
-        return  ReviewResource::collection(Review::query()->Customer()->with('product')->get());
+        return  ReviewResource::collection(Review::Customer()->with('product')->get());
     }
     public function show(Review $review){
         return new ReviewResource($review);

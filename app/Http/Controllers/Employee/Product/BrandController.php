@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Employee\Product;
-use App\Models\Employee\Product\Brand;use Illuminate\Support\Str;
-use App\Services\Brand\BrandData;
+use App\Models\Employee\Product\Brand;
+use Illuminate\Support\Str;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BrandResource;

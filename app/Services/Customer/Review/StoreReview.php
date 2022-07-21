@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Services\Review;
-use App\Models\Admin\Admin;
+use App\Models\Admin;
 use App\Models\Customer\Review\Review;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\OffersNotification;
@@ -14,7 +14,7 @@ class StoreReview
             'product_id'=>["required","exists:products,id"],
             'customer_review' => ['required','string']
         ]);
-        $validated['customer_id'] =Auth::id();
+        $validated['customer_id'] =auth()->id();
         Review::create($validated);
         $admin=Admin::get();
         $details=[
