@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Review;
+namespace App\Services\Customer\Review;
 use App\services\ResponseMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Customer\Review\Rating;

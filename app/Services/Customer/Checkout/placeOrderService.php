@@ -1,19 +1,19 @@
 <?php
 namespace App\Services\Customer\Checkout;
+
 use App\Models\Admin;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Customer\Checkout\Cart;
 use App\Models\Customer\Checkout\Order;
 use App\Models\Employee\Order\Shipping;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Customer\Checkout\Payment;
 use App\Notifications\OffersNotification;
-
 use App\Models\Customer\Checkout\OrderItem;
 use Illuminate\Support\Facades\Notification;
+
 
 class placeOrderService{
     private $payment;
@@ -33,7 +33,8 @@ class placeOrderService{
                     'customer_id'=>$item->customer_id,
                     'quantity'=>$item->quantity,
                 ]);
-            });     
+            });
+                
             $this->destroyCart($cartItems);
             $payment = $this->paymentMode()[request()->payment_mode];
             $payment['order_id']=$order->id;

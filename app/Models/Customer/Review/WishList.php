@@ -20,7 +20,7 @@ class WishList extends Model
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
-    public function scopeCustomer($query){
+    public function scopeGetCustomer($query){
         return $query->where('customer_id',auth()->id());
     }
     public function scopeProduct($query,$productId){

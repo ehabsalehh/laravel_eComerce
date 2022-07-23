@@ -1,8 +1,9 @@
 <?php
 namespace App\Services\Employee\Product;
+use App\Models\Admin;
 use Illuminate\Support\Str;
 use App\services\ResponseMessage;
-use App\Models\Admin\Notification;
+use Notification;
 use Illuminate\Support\Facades\DB;
 use App\Models\Employee\Product\Product;
 use App\Notifications\OffersNotification;
@@ -16,10 +17,11 @@ class StoreProduct
             $product=$request->except(['quantity','location_id']);
             $product['slug'] =Str::slug($request->name).'-'.date('ymdis');        
             $product =Product::create($product);
+            $admin=Admin::get();
             $details=[
                 'title'=>'New product created',
             ];
-            Notification::send($product, new OffersNotification($details));
+            Notification::send($admin, new OffersNotification($details));
             $product->addMediaFromRequest('images')
                     ->toMediaCollection('images');
             $inventory = $request->only(['quantity','location_id']);

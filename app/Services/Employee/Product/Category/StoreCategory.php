@@ -1,8 +1,9 @@
 <?php
 namespace App\Services\Employee\Product\Category;
+use App\Models\Admin;
 use Illuminate\Support\Str;
 use App\services\ResponseMessage;
-use App\Models\Admin\Notification;
+use Notification;
 use App\Models\Employee\Product\Category;
 use App\Notifications\OffersNotification;
 
@@ -17,7 +18,8 @@ class StoreCategory
             $details=[
                 'title'=>'New Category created',
             ];
-            Notification::send($category, new OffersNotification($details));
+            $admin=Admin::get();
+            Notification::send($admin, new OffersNotification($details));
             $category->addMediaFromRequest('images')
                         ->toMediaCollection('Categories');
             return ResponseMessage::successResponse();

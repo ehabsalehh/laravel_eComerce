@@ -1,12 +1,12 @@
 <?php
 namespace App\Http\Controllers\Customer\Review;
-use App\Models\Customer\Review\Review;
+use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ReviewResource;
+use App\Models\Customer\Review\Review;
+use App\Services\Customer\Review\StoreReview;
 use App\Services\Employee\Order\VerifiedPurchaseOrder;
-use App\Services\Review\StoreReview;
-use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
@@ -19,7 +19,8 @@ class ReviewController extends Controller
     } 
     public function store(Request $request,StoreReview $store,VerifiedPurchaseOrder $verified){
         $this->store = $store;
-        return $this->store->store($request,$verified);
+        $this->store->store($request,$verified);
+        return ResponseMessage::successResponse();
     }
     public function update(Request $request, Review $Review){
         $this->authorize('update', $Review);

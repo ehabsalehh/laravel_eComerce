@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services\Review;
+namespace App\Services\Customer\Review;
 use App\Models\Admin;
 use App\Models\Customer\Review\Review;
-use Illuminate\Support\Facades\Auth;
 use App\Notifications\OffersNotification;
-use Illuminate\Support\Facades\Notification;
+use Notification;
 class StoreReview
 {
     public function store($request,$verifiedPurchaseOrder){
-        if(empty($verifiedPurchaseOrder->verifiedPurchaseOrder($request->product_id))){return ;}
+        if(empty($verifiedPurchaseOrder
+                    ->verifiedPurchaseOrder($request->product_id))){return ;}
         $validated = $request->validate([
             'product_id'=>["required","exists:products,id"],
             'customer_review' => ['required','string']

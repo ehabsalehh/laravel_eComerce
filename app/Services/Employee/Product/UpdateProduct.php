@@ -1,9 +1,10 @@
 <?php
 namespace App\Services\Employee\Product;
 
+use App\Models\Admin;
 use Illuminate\Support\Str;
 use App\services\ResponseMessage;
-use App\Models\Admin\Notification;
+use Notification;
 use App\Models\Employee\Product\Product;
 use App\Notifications\OffersNotification;
 use App\Models\Employee\Product\Inventory;
@@ -16,10 +17,11 @@ class UpdateProduct
             $data=$request->except(['quantity','location_id']);
             $data['slug'] =Str::slug($request->name).'-'.date('ymdis');        
             $product->update($data);
+            $admin=Admin::get();
             $details=[
                 'title'=>'New  updated  Product ',
             ];
-            Notification::send($product, new OffersNotification($details));
+            Notification::send($admin, new OffersNotification($details));
             $product->clearMediaCollection('images');
             $product->addMediaFromRequest('images')
                     ->toMediaCollection('images');

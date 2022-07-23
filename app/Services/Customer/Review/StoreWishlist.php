@@ -13,7 +13,7 @@ class StoreWishlist
             'product_id'=>["required","exists:products,id"],
         ]);
         $validated['customer_id']= auth()->id();
-         $alReadyInWishlist= WishList::customer()
+         $alReadyInWishlist= WishList::getCustomer()
                                 ->product($request->product_id)->get();
         if(count($alReadyInWishlist)>0){
            return  response()->json('Already placed in wishlist');

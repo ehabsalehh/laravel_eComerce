@@ -58,12 +58,7 @@ class Customer extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: "{$this->first_name}{$this->last_name}",
-        );
-    }
+
     //orderItem, cart, wishlist,
     public function carts(){
         return $this->hasMany(Cart::class);
@@ -83,6 +78,9 @@ class Customer extends Authenticatable
     }
     public function wishLists(){
         return $this->hasMany(WishList::class);
+    }
+    public function scopeId($query){
+        return $query->where('id',auth()->id());
     }
 
 }

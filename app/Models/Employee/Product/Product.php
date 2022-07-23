@@ -5,15 +5,16 @@ use Spatie\MediaLibrary\HasMedia;
 use App\Models\Customer\Review\Rating;
 use App\Models\Customer\Review\Review;
 use App\Models\Employee\Product\Brand;
-use App\Models\Employee\Order\Discount;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Employee\Product\Category;
+use App\Models\Employee\Product\Discount;
 use App\Models\Employee\Product\Inventory;
 use App\Models\Customer\Checkout\OrderItem;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\Employee\Product\ProductImage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Product extends Model implements HasMedia
 {
     use HasFactory,
@@ -58,11 +59,9 @@ class Product extends Model implements HasMedia
     public function review(){
         return $this->hasMany(Review::class);
     }
-    // Get the  Customer that owns the product .
     public function Customer(){
         return $this->belongsTo(Customer::class);
     }
-    // Get the  Brand that owns the product .
     public function brand(){
         return $this->belongsTo(Brand::class);
     }
@@ -73,8 +72,7 @@ class Product extends Model implements HasMedia
     public function scopeProductWith($query){
         return $query->with(['discount','category','sub_category','rating','review']);
 
-    }
-   
+    }   
     public function scopeActive($query){
         return $query->where('status','active');
     }

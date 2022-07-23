@@ -40,6 +40,7 @@ class ShippingController extends Controller
      */
     public function show(Shipping $shipping)
     {
+
         return new ShippingResource($shipping);
     }
 

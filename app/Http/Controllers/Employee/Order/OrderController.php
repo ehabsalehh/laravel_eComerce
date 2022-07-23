@@ -41,10 +41,11 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Order $order,UpdateStatus $update)
+    
+    public function update(Request $request,Order $Order, UpdateStatus $update)
     {
         $updateStatus = $update;
-        return $updateStatus->updateStatus($request,$order);
+        return $updateStatus->updateStatus($request,$Order);
     }
    
 
