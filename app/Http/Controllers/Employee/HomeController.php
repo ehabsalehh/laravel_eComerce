@@ -6,6 +6,8 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendDiscountMail;
+use App\Models\Customer;
 use App\Services\Employee\Home\ChangeEmployeePassword;
 
 class HomeController extends Controller
@@ -23,6 +25,11 @@ class HomeController extends Controller
         ]);
         $employee->addMediaFromRequest('avatar')
                 ->toMediaCollection('employee-avatar');
+        return ResponseMessage::successResponse();
+    }
+    public function sendDiscountMail(){
+        $customer = Customer::pluck('email')->take(5);
+        SendDiscountMail::dispatch($customer);
         return ResponseMessage::successResponse();
     }
 }
