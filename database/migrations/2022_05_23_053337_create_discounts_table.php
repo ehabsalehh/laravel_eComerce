@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Employee\Product\DiscountStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->string("name")->nullable();
             $table->mediumText("description")->nullable();
             $table->tinyInteger('percent');
-            $table->enum('status',['active','inactive'])->default('inactive');
+            $table->unsignedInteger('status')->default(DiscountStatus::Active->value);
             $table->softDeletes();
             $table->timestamps();
         });

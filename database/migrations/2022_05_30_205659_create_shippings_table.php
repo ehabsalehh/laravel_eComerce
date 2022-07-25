@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Employee\Order\ShippingStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->float('price');
             $table->string('phone');
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->unsignedInteger('status')->default(ShippingStatus::Active->value);
             $table->timestamps();
         });
     }

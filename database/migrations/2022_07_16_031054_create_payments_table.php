@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\Employee\Order\PaymentMethod;
+use App\Enums\Employee\Order\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,8 +18,8 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->float('amount');
-            $table->enum('method',['cod','paypal'])->default('cod');
-            $table->enum('status',['paid','unpaid'])->default('unpaid');
+            $table->unsignedInteger('status')->default(PaymentStatus::Unpaid->value);
+            $table->unsignedInteger('method')->default(PaymentMethod::Cod->value);
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('SET NULL');            

@@ -9,7 +9,6 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Employee\Product\Product;
 use App\Models\Employee\Product\Category;
 use App\Models\Employee\Product\Supplier;
-use App\Services\Employee\Product\ActiveProductByCategory;
 
 class FrontendController extends Controller
 {

@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Employee\Product\Product;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Enums\Employee\Product\CategoryStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model implements HasMedia
@@ -22,6 +23,7 @@ class Category extends Model implements HasMedia
         'is_parent',
         'parent_id',
     ];
+    protected $casts = ['status' => CategoryStatus::class];
     public function parent_info(){
         return $this->hasOne(Category::class,'id','parent_id');
     }
@@ -44,7 +46,7 @@ class Category extends Model implements HasMedia
     return $query->where('slug',$slug);
    }
    public function scopeActive($query) {
-    return $query->where('status','active');
+    return $query->where('status',CategoryStatus::Active);
    }
    
 

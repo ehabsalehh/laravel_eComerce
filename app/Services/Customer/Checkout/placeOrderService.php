@@ -1,6 +1,9 @@
 <?php
 namespace App\Services\Customer\Checkout;
 
+use App\Enums\Employee\Order\OrderStatus;
+use App\Enums\Employee\Order\PaymentMethod;
+use App\Enums\Employee\Order\PaymentStatus;
 use App\Models\Admin;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
@@ -22,10 +25,7 @@ class placeOrderService{
             DB::beginTransaction();
             $cartItems = Cart::customerId(auth()->id())->get();
             if(empty($cartItems)){return to_route('viewCheckOut');}
-            $validated = $request->validate([
-                'shipping_id'=>['exists:shippings,id'],
-            ]);
-            $order =$this->CreateOrder($validated);
+            $order =$this->CreateOrder($request);
             $cartItems->map(function($item)use($order){
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -64,15 +64,15 @@ class placeOrderService{
     private function unPaidPayment():array
     {
         $payment = [];
-        $payment['method']='cod';
-        $payment['status']='Unpaid';
+        $payment['method']=PaymentMethod::Cod;
+        $payment['status']=PaymentStatus::Unpaid;
         return $payment;
     }
     private function paidPayment():array
     {
         $payment = [];
-        $payment['method']='paypal';
-        $payment['status']='paid';
+        $payment['method']=PaymentMethod::Paypal;
+        $payment['status']=PaymentStatus::Paid;
         return $payment;
     }
 
@@ -81,10 +81,12 @@ class placeOrderService{
         Cart::whereIn('id',$CartIds)->delete();
     }
     private function CreateOrder($request){
-        $data= $request->validated();
+        $data = $request->validate([
+            'shipping_id'=>['exists:shippings,id'],
+        ]);
         $data['customer_id'] = auth()->id();  
         $data['order_number'] ='ORD-'.strtoupper(Str::random(10));
-        $data['status'] = 'new';
+        $data['status'] = OrderStatus::New;
         $Shipping =Shipping::where('id', $request->shipping_id)->select('price')->first();
         $shippingPrice= $Shipping->price;
         $data['coupon'] =$request->coupon;

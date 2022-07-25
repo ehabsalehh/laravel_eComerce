@@ -1,5 +1,7 @@
 <?php
 namespace App\Models\Customer\Checkout;
+
+use App\Enums\Employee\Order\OrderStatus;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\Employee\Order\Shipping;
@@ -37,10 +39,10 @@ class Order extends Model
         return $query->where('customer_id',$id);
     }
     public function scopeGetStatusNewOrder($query) {
-        return $query->where('status' ,'new');
+        return $query->where('status' ,OrderStatus::New);
     }
     public function scopeGetOrderByStatus($query,$status) {
-        return $query->where('status' ,$status);
+        return $query->where('status',$status);
     }
     
 }

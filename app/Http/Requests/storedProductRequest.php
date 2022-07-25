@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rules\Enum;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Enums\Employee\Product\ProductStatus;
 
 class storedProductRequest extends FormRequest
 {
@@ -23,7 +25,7 @@ class storedProductRequest extends FormRequest
             'size'=>["string"],
             'tax'=>["numeric","required"],
             'quantity'=>["numeric","required"],
-            'status'=> ["required","in:active,inactive"],
+            'status'=> ["required",new Enum(ProductStatus::class)],
             'category_id'=>["required","exists:categories,id"],
             'child_category_id'=>["nullable","exists:categories,id"],
             'supplier_id'=>["nullable","exists:suppliers,id"],

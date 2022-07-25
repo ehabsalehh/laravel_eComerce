@@ -21,7 +21,7 @@ Auth::routes();
 Route::get('/', function () {
     return view('auth.login');
 });
-route::post("login-customer",[LoginController::class,'customerLogin'])->name('login-customer');
+route::post("login-customer",[LoginController::class,'customerLoginWep'])->name('login-customer');
 Route::group(['middleware' => ['auth']], function() {
     Route::get('viewCheckOut',[CheckoutController::class,'view'])->name('viewCheckOut');
     Route::post('/placeOrder',[CheckoutController::class,'placeOrder'])->name('placeOrder');

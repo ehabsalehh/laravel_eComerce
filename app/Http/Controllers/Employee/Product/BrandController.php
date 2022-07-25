@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Employee\Product;
-use App\Models\Employee\Product\Brand;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BrandResource;
+use Illuminate\Validation\Rules\Enum;
+use App\Models\Employee\Product\Brand;
 use App\Http\Requests\StoredBrandRequest;
+use App\Enums\Employee\Product\BrandStatus;
 
 class BrandController extends Controller
 {
@@ -26,7 +29,7 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoredBrandRequest $request)
+    public function store(Request $request)
     {
         $validated= $request->validate($this->rules());
         $this->data =$validated; 
@@ -55,7 +58,7 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoredBrandRequest $request,Brand $brand)
+    public function update(Request $request,Brand $brand)
     {
         $validated= $request->validate($this->rules());
         $this->data =$validated; 
@@ -79,7 +82,7 @@ class BrandController extends Controller
         return [
             'name'=>["string",'required'],
             'slug' =>['string'],
-            'status'=> ["in:active,inactive"],
+            'status'=> [new Enum(BrandStatus::class)],
         ];
     }
 }

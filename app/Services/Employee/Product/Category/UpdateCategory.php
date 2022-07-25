@@ -16,10 +16,12 @@ class UpdateCategory
                 'title'=>'New  updated  category ',
             ];
             Notification::send($admin, new OffersNotification($details));
-            $category->clearMediaCollection('Categories');
-            $category->addMediaFromRequest('images')
+            if($request->images){
+                $category->clearMediaCollection('Categories');
+                $category->addMediaFromRequest('images')
                         ->toMediaCollection('Categories');    
-            return ResponseMessage::successResponse();   
+            }
+        return ResponseMessage::successResponse();   
         } catch (\Throwable $th) {
             throw $th;
         }

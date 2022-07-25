@@ -1,11 +1,13 @@
 <?php
 namespace App\Http\Controllers\Employee\Order;
+use Illuminate\Http\Request;
+use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\Enum;
+use App\Models\Employee\Order\Shipping;
 use App\Http\Resources\ShippingResource;
 use App\Http\Resources\SupplierResource;
-use App\Models\Employee\Order\Shipping;
-use App\services\ResponseMessage;
-use Illuminate\Http\Request;
+use App\Enums\Employee\Order\ShippingStatus;
 
 class ShippingController extends Controller
 {
@@ -75,7 +77,7 @@ class ShippingController extends Controller
             'name' => ['string','required'],
             'price' =>['required','numeric'],
             'phone' => ['string','required','digits:11'],
-            'status'=> ["required","in:active,inactive"],
+            'status'=> ["required",new Enum(ShippingStatus::class)],
         ];
     }
 }

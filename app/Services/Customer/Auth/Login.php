@@ -9,18 +9,24 @@ use App\Http\Requests\LoginCustomerRequest;
 
 class Login
 {
-    public function loginApi( Request $request){
+    public function login(  $request){
+        
         $validated= $request->validated();
-        if (Auth::attempt($validated)) {
-            $user = Auth::user(); 
-            return $user->createToken('MyApp')->plainTextToken;  
+        if (Auth::guard('customer')->attempt($validated, $request->get('remember'))) {
+            $customer = Auth::guard('customer')->user();
+            return $customer->createToken("myapp")->plainTextToken;
         }
+        // if (Auth::attempt($validated)) {
+        //     $user = Auth::user(); 
+        //     return $user->createToken('MyApp')->plainTextToken;  
+        // }
     }
-        public function login( Request $request){
+        public function loginWep(  $request){
             $validated= $request->validated();
             if (Auth::attempt($validated)) { 
                 return redirect()->intended('viewCheckOut'); 
-            } 
+            }
+            return redirect()->intended('login'); 
         
     }
 }

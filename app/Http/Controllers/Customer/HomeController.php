@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Customer;
+
+use App\Enums\Employee\Order\OrderStatus;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\services\ResponseMessage;
@@ -45,7 +47,7 @@ class HomeController extends Controller
     }
     public function orderDelete(Order $order){
          $this->authorize('delete', $order);
-        if($order->status =='new'){
+        if($order->status == OrderStatus::New){
             $order->delete();
         }
     }

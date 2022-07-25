@@ -1,10 +1,13 @@
 <?php
 namespace App\Http\Controllers\Employee\Order;
-use App\Models\Employee\Order\Coupon;
+
+use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
+use App\Models\Employee\Order\Coupon;
+use Illuminate\Validation\Rules\Enum;
 use App\Http\Resources\couponResource;
-use Illuminate\Http\Request;
+use App\Enums\Employee\Order\CouponStatus;
 
 class CouponController extends Controller
 {
@@ -71,7 +74,7 @@ class CouponController extends Controller
         return [
             'code'=>['string','required'],
             'percent'=>['required','numeric'],
-            'status'=>['required','in:active,inactive']
+            'status'=> ["required",new Enum(CouponStatus::class)],
         ];
     }
     

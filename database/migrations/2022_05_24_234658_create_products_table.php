@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Employee\Product\ProductStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -23,7 +24,7 @@ return new class extends Migration
             $table->string('size')->default('M')->nullable();
             $table->string('color')->nullable();
             $table->integer('tax');
-            $table->enum('status',['active','inactive'])->default('inactive');
+            $table->unsignedInteger('status')->default(ProductStatus::Inactive->value);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('child_category_id')->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();

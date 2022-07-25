@@ -28,7 +28,7 @@ class CheckoutController extends Controller
         return $this->placeOrder->placeOrder($request);
     }
     public function couponStore(Request $request){
-        $coupon=Coupon::code($request->code)->status('active')->firstOrFail();
+        $coupon=Coupon::code($request->code)->statusActive()->firstOrFail();
         session()->put('couponPercent', $coupon->percent);
         return redirect()->intended('viewCheckOut'); 
 

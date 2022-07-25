@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Employee\Product;
 use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\Enum;
 use App\Models\Employee\Product\Discount;
+use App\Enums\Employee\Product\DiscountStatus;
 
 class DiscountTController extends Controller
 {
@@ -35,7 +37,7 @@ class DiscountTController extends Controller
             'name'=>['nullable','string'],
             'description'=>['nullable','string'],
             'percent'=>['numeric','string'],
-            'status'=> ["required","in:active,inactive"],
+            'status'=> ["required",new Enum(DiscountStatus::class)],
         ];
     }
 }

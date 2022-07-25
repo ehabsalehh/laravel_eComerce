@@ -11,6 +11,7 @@ use App\Models\Employee\Product\Discount;
 use App\Models\Employee\Product\Inventory;
 use App\Models\Customer\Checkout\OrderItem;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use App\Enums\Employee\Product\ProductStatus;
 use App\Models\Employee\Product\ProductImage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,6 +39,7 @@ class Product extends Model implements HasMedia
         'discount_id',
 
     ];
+    protected $casts = ['status' => ProductStatus::class];
     public function orderItems(){
         return $this->hasMany(OrderItem::class);
     }
@@ -74,7 +76,7 @@ class Product extends Model implements HasMedia
 
     }   
     public function scopeActive($query){
-        return $query->where('status','active');
+        return $query->where('status',ProductStatus::Active);
     }
     public function scopeByCategory($query,$category_id){
         return $query->Where('category_id',$category_id);
@@ -90,8 +92,5 @@ class Product extends Model implements HasMedia
     }
     public function scopeGetProductByName($query,$name){
         return $query->where('name','like',"%$name%");
-    }
-    public static function activeProduct(){
-        return Category::where('status','active')->paginate(20);
     }
 }

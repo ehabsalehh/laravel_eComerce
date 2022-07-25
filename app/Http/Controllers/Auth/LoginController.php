@@ -56,6 +56,10 @@ class LoginController extends Controller
         $this->customerLogin = $customerLogin;
        return  $this->customerLogin->login($request);
     }
+    public function customerLoginWep(LoginRequest $request, Login $customerLogin){
+        $this->customerLogin = $customerLogin;
+       return  $this->customerLogin->loginWep($request);
+    }
     public function employeeLogin(LoginRequest $request ,EmployeeAuthLogin $login){
         $this->employeeLogin = $login;
         return $this->employeeLogin->Login($request);

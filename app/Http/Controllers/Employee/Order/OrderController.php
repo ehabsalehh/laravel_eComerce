@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers\Employee\Order;
+
+use App\Enums\Employee\Order\OrderStatus;
 use Illuminate\Http\Request;
 use App\services\ResponseMessage;
 use App\Http\Controllers\Controller;
@@ -69,8 +71,14 @@ class OrderController extends Controller
     }
     public function orderStatus()
     {
+        $status = [
+            'new' => OrderStatus::New,
+            "process"=>orderStatus::Process,
+            "delivered"=>orderStatus::Delivered,
+            "cancel"=>orderStatus::Cancel,
+        ];
         return  OrderResource::collection(
-                        Order::getOrderByStatus($_GET['status'])
+                        Order::getOrderByStatus(data_get($status,$_GET['status']))
                         ->with('orderItems.product')
                         ->get());
     }

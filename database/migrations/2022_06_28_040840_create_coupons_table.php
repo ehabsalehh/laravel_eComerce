@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use App\Enums\Employee\Order\ShippingStatus;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->tinyInteger('percent');
-            $table->enum('status',['active','inactive'])->default('inactive');
+            $table->unsignedInteger('status')->default(ShippingStatus::Active->value);
             $table->timestamps();
         });
     }
