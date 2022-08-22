@@ -71,6 +71,7 @@ class CategoryController extends Controller
     {
         $category->clearMediaCollection('images');
         $category->delete();
+    
         return ResponseMessage::successResponse();
     }
     
